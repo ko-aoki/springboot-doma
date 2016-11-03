@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:~/dev/Java/ide/ws/springboot-doma/work/db/db;MODE=MySQL
+    username:
+    password:
+  thymeleaf:
+    cache: false
+doma:
+  dialect: h2
+server:
+  contextPath: /edu
+app:
+  uploadPath: ~/dev/Java/ide/ws/springboot-doma/work/testdata/
