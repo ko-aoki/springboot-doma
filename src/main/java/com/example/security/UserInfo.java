@@ -3,7 +3,7 @@ package com.example.security;
 /**
  * Created by ko-aoki on 2016/09/04.
  */
-public class LoginInfo {
+public class UserInfo {
 
     private String id;
     private String password;

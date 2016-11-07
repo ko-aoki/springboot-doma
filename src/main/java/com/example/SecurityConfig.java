@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/loginForm")
                 .failureUrl("/loginForm?error")
 //                .defaultSuccessUrl("/sample", true)
-                .defaultSuccessUrl("/manager/entry/input", true)
+                .defaultSuccessUrl("/manager/news/input", true)
                 .usernameParameter("id").passwordParameter("password");
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))

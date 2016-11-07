@@ -6,8 +6,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>基幹システム</title>
-    <link rel="stylesheet" type="text/css" href="../../../static/css/lib/bootstrap.min.css" th:href="@{/css/lib/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css" href="../../../static/css/lib/bootstrap-theme.min.css" th:href="@{/css/lib/bootstrap-theme.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../../static/css/lib/bootstrap.min.css" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../../static/css/lib/bootstrap-theme.min.css" th:href="@{/css/lib/bootstrap-theme.min.css}"/>
     <style>
         body {
             padding-top: 70px;
@@ -35,7 +35,7 @@
                 <li class="nav-divider"></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-                        <span class="glyphicon glyphicon-user" th:text="${loginInfo.employeeName} + 'さん'"></span>
+                        <span class="glyphicon glyphicon-user" th:text="${userInfo.employeeName} + 'さん'"></span>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
@@ -52,14 +52,20 @@
 <!-- メインコンテンツ -->
 <div class="container">
     <div class="row">
-        <div class="col col-sm-12">
+        <div class="col col-sm-3">
+            <ul id="nav-tab" class="nav nav-pills nav-stacked">
+                <li><a th:href="@{/sample}" href="#sample"><span class="glyphicon glyphicon-home"></span> HOME</a></li>
+                <li class="active"><a href="#entries"><span class="glyphicon glyphicon-star"></span> 重要なお知らせ</a></li>
+                <li><a th:href="@{/learning}" href="#learning"><span class="glyphicon glyphicon-pencil"></span> Learning</a></li>
+            </ul>
+        </div>
+        <div class="col col-sm-9">
             <div class="tab-content">
                 <div id="entries" class="tab-pane active">
                     <div class="panel panel-default">
-                        <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」管理画面</h3></div>
+                        <div class="panel-heading"><h3 class="panel-title">重要なお知らせ</h3></div>
                         <div class="panel-body">
-                            <div>
-                            </div>
+                            <h4>xヶ月分の更新履歴を表示しています。</h4>
                             <div>
                                 <ul class="list-group">
                                     <li class="list-group-item">更新履歴1</li>
@@ -69,12 +75,28 @@
                         </div>
                     </div>
                 </div>
+                <div id="users" class="tab-pane">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h3 class="panel-title">ユーザー管理画面</h3></div>
+                        <div class="panel-body">
+                            <!-- 略 -->
+                        </div>
+                    </div>
+                </div>
+                <div id="reports" class="tab-pane">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h3 class="panel-title">レポート</h3></div>
+                        <div class="panel-body">
+                            <!-- 略 -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script src="http://code.jquery.com/jquery.js"></script>
-<script src="../../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script src="../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
 <script>
     // ログアウト
     $('#logout-link').on('click', function (e) {

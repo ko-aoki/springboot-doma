@@ -21,17 +21,17 @@ public class LoginUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         UserEntity user = dao.selectUser(id);
 
-        LoginInfo loginInfo = new LoginInfo();
+        UserInfo userInfo = new UserInfo();
 
-        loginInfo.setId(user.employeeId);
-        loginInfo.setEmployeeFirstName(user.employeeFirstName);
-        loginInfo.setEmployeeLastName(user.employeeLastName);
-        loginInfo.setRoleId(user.roleId);
-        loginInfo.setPassword(user.password);
+        userInfo.setId(user.employeeId);
+        userInfo.setEmployeeFirstName(user.employeeFirstName);
+        userInfo.setEmployeeLastName(user.employeeLastName);
+        userInfo.setRoleId(user.roleId);
+        userInfo.setPassword(user.password);
 
-        if (loginInfo == null) {
+        if (userInfo == null) {
             throw new UsernameNotFoundException("The requested user is not found.");
         }
-        return new LoginUserDetails(loginInfo);
+        return new LoginUserDetails(userInfo);
     }
 }

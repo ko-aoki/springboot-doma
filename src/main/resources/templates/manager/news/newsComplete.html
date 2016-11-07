@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="manager/managerLayout">
+<head>
+    <!--
+    固有のヘッダ情報
+    -->
+</head>
+<body>
+<!-- メインコンテンツ -->
+<div class="container">
+    <div layout:fragment="content" class="col col-sm-12">
+        <div id="entries" class="tab-pane active">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」完了画面</h3></div>
+                <br/>
+                <p >お知らせを登録しました</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

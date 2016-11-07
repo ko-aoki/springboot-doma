@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="manager/managerLayout">
+<head>
+<!--
+固有のヘッダ情報
+-->
+</head>
+<body>
+<!-- ナビゲーションバー -->
+<!-- メインコンテンツ -->
+<div class="container">
+    <div class="row">
+        <div layout:fragment="content" class="col col-sm-12">
+            <div id="entries" class="tab-pane active">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」入力画面</h3></div>
+                    <br/>
+                    <form id="entry-input-form" action="/manager/news/confirm" th:action="@{/manager/news/confirm}" th:object="${newsForm}" method="post">
+                        <ul>
+                            <li th:each="error : ${#fields.detailedErrors()}">
+                                <span th:text="${error.message}">Error message</span>
+                            </li>
+                        </ul>
+                    <div class="form-group">
+                        <label for="entry-nm">お知らせ表題</label>
+                        <input class="form-control" id="entry-nm" type="text" th:field="*{entryNm}" />
+                        <label for="entry-url">お知らせURL</label>
+                        <input class="form-control" id="entry-url" type="text" th:field="*{entryUrl}" />
+                    </div>
+                    <div class="form-group">
+                        <button th:type="submit" type="submit" class="btn-primary">確認</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

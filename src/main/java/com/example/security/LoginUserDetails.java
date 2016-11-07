@@ -9,14 +9,14 @@ import org.springframework.security.core.userdetails.User;
 public class LoginUserDetails extends User {
 
     /** ログイン情報 */
-    private LoginInfo loginInfo;
+    private UserInfo userInfo;
 
-    public LoginUserDetails(LoginInfo loginInfo) {
-        super(loginInfo.getId(), loginInfo.getPassword(), AuthorityUtils.createAuthorityList(loginInfo.getRoleId()));
-        this.loginInfo = loginInfo;
+    public LoginUserDetails(UserInfo userInfo) {
+        super(userInfo.getId(), userInfo.getPassword(), AuthorityUtils.createAuthorityList(userInfo.getRoleId()));
+        this.userInfo = userInfo;
     }
 
-    public LoginInfo getUserInfo() {
-        return this.loginInfo;
+    public UserInfo getUserInfo() {
+        return this.userInfo;
     }
 }
