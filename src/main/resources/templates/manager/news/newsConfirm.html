@@ -18,18 +18,23 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」確認画面</h3></div>
                     <br/>
-                    <form id="entry-input-form" action="/manager/entry/complete" th:action="@{/manager/entry/confirm}" th:object="${form}" method="post">
+                    <form id="entry-input-form" action="/manager/news/complete" th:action="@{/manager/news/confirm}" th:object="${form}" method="post">
                         <div class="form-group" style="padding: 10px;">
-                            <label for="entry-nm">お知らせ表題</label>
-                            <p type="text" th:text="${form.entryNm}"></p>
-                            <label for="entry-url">お知らせURL</label>
-                            <p type="text" th:text="${form.entryUrl}"></p>
+                            <label>お知らせ表題</label>
+                            <p type="text" th:text="${form.subject}"></p>
+                            <label>権限</label>
+                            <p type="text" th:text="${form.roleNm}"></p>
+                            <label>お知らせURL</label>
+                            <p type="text" th:text="${form.url}"></p>
                         </div>
                         <div class="form-group" style="padding: 10px;">
-                            <button th:type="submit" type="submit" class="btn-primary">登録</button>
+                            <button th:type="submit" type="submit" class="btn-primary" th:name="register">登録</button>
+                            <button th:type="submit" type="submit" class="btn-primary" th:name="back">戻る</button>
                         </div>
-                        <input class="form-control" id="entry-nm" type="hidden" th:field="*{entryNm}" />
-                        <input class="form-control" id="entry-url" type="hidden" th:field="*{entryUrl}" />
+                        <input class="form-control" id="roleId" type="hidden" th:field="*{roleId}" />
+                        <input class="form-control" id="roleNm" type="hidden" th:field="*{roleNm}" />
+                        <input class="form-control" id="subject" type="hidden" th:field="*{subject}" />
+                        <input class="form-control" id="url" type="hidden" th:field="*{url}" />
                     </form>
                 </div>
             </div>

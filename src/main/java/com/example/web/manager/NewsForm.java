@@ -13,7 +13,9 @@ public class NewsForm {
     private String subject;
     /** 権限 */
     @NotBlank
-    private String role;
+    private String roleId;
+    /** 権限名 */
+    private String roleNm;
     /** URL */
     @NotBlank
     @URL(message = "お知らせURLの形式が正しくありません。")
@@ -28,12 +30,20 @@ public class NewsForm {
         this.subject = subject;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public String getRoleNm() {
+        return roleNm;
+    }
+
+    public void setRoleNm(String roleNm) {
+        this.roleNm = roleNm;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     public String getUrl() {

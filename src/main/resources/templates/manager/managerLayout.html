@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
     <meta http-equiv="Pragma" content="no-cache" />
@@ -7,8 +9,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>基幹システム</title>
-    <link rel="stylesheet" type="text/css" href="../../static/css/lib/bootstrap.min.css" th:href="@{/css/lib/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css" href="../../static/css/lib/bootstrap-theme.min.css" th:href="@{/css/lib/bootstrap-theme.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/css/lib/bootstrap.min.css" th:href="@{/css/lib/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/css/lib/bootstrap-theme.min.css" th:href="@{/css/lib/bootstrap-theme.min.css}"/>
     <style>
         body {
             padding-top: 70px;
@@ -36,7 +38,7 @@
                 <li class="nav-divider"></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-                        <span class="glyphicon glyphicon-user" th:text="${loginInfo.employeeName} + 'さん'"></span>
+                        <span class="glyphicon glyphicon-user" sec:authentication="principal.userInfo.employeeName"></span> さん
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
@@ -53,20 +55,11 @@
 <!-- メインコンテンツ -->
 <div class="container">
     <div class="row">
-        <div layout:flagment="content"></div>
-        <div class="col col-sm-12">
-            <div id="entries" class="tab-pane active">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」入力画面</h3></div>
-                    <br/>
-                    <p id="message" type="text" th:text="${message}"></p>
-                </div>
-            </div>
-        </div>
+        <div layout:fragment="content"></div>
     </div>
 </div>
 <script src="http://code.jquery.com/jquery.js"></script>
-<script src="../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
+<script src="../../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
 <script>
     // ログアウト
     $('#logout-link').on('click', function (e) {

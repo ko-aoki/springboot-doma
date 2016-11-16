@@ -1,6 +1,5 @@
 package com.example.entity;
 
-import com.example.entity.listener.AuditListener;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Version;
 
@@ -14,7 +13,9 @@ public class AuditEntity {
 
     @Version
     public int version;
+    public String insertUser;
     public LocalDateTime insertDate;
+    public String updateUser;
     public LocalDateTime updateDate;
 
     public int getVersion() {
@@ -39,5 +40,21 @@ public class AuditEntity {
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getInsertUser() {
+        return insertUser;
+    }
+
+    public void setInsertUser(String insertUser) {
+        this.insertUser = insertUser;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
     }
 }

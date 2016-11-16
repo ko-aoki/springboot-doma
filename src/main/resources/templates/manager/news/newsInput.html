@@ -15,27 +15,31 @@
 <div class="container">
     <div class="row">
         <div layout:fragment="content" class="col col-sm-12">
-            <div id="entries" class="tab-pane active">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」入力画面</h3></div>
-                    <br/>
-                    <form id="entry-input-form" action="/manager/news/confirm" th:action="@{/manager/news/confirm}" th:object="${newsForm}" method="post">
-                        <ul>
-                            <li th:each="error : ${#fields.detailedErrors()}">
-                                <span th:text="${error.message}">Error message</span>
-                            </li>
-                        </ul>
+            <div id="entries">
+                <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」入力画面</h3></div>
+                <br/>
+                <form id="news-input-form" action="/manager/news/confirm" th:action="@{/manager/news/confirm}"
+                      th:object="${newsForm}" method="post">
+                    <ul>
+                        <li th:each="error : ${#fields.detailedErrors()}">
+                            <span th:text="${error.message}">Error message</span>
+                        </li>
+                    </ul>
                     <div class="form-group">
-                        <label for="entry-nm">お知らせ表題</label>
-                        <input class="form-control" id="entry-nm" type="text" th:field="*{entryNm}" />
-                        <label for="entry-url">お知らせURL</label>
-                        <input class="form-control" id="entry-url" type="text" th:field="*{entryUrl}" />
+                        <label for="subject">お知らせ表題</label>
+                        <input class="form-control" id="subject" type="text" th:field="*{subject}"/>
+                        <label for="role-id">権限</label>
+                        <select class="form-control" id="role-id" name="roleId">
+                            <option value="">---</option>
+                            <option th:each="item : ${roleIdMap}" th:value="${item.key}" th:text="${item.value}" th:selected="${item.key} == *{roleId}">pulldown</option>
+                        </select>
+                        <label for="url">お知らせURL</label>
+                        <input class="form-control" id="url" type="text" th:field="*{url}"/>
                     </div>
                     <div class="form-group">
                         <button th:type="submit" type="submit" class="btn-primary">確認</button>
                     </div>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
