@@ -49,5 +49,20 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void modifyNews(NewsDto dto) {
 
+        TrnNews trnNews = new TrnNews();
+        BeanUtils.copyProperties(dto, trnNews);
+        trnNews.setTrnNewsId(dto.getId());
+
+        dao.update(trnNews);
+    }
+
+    @Override
+    public NewsDto findNews(Long id) {
+        return dao.selectOneNewsDto(id);
+    }
+
+    @Override
+    public List<NewsDto> findNewsList(String subject, String roleId, String url) {
+        return dao.selectNewsDtoByCond(subject, roleId, url);
     }
 }

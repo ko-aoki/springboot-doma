@@ -18,7 +18,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」確認画面</h3></div>
                     <br/>
-                    <form id="entry-input-form" action="/manager/news/complete" th:action="@{/manager/news/confirm}" th:object="${form}" method="post">
+                    <form id="entry-input-form" action="/manager/news/register/complete"
+                          th:action="@{/manager/news/register/complete}" th:object="${form}" method="post">
                         <div class="form-group" style="padding: 10px;">
                             <label>お知らせ表題</label>
                             <p type="text" th:text="${form.subject}"></p>

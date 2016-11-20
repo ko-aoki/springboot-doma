@@ -10,25 +10,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
 /**
- * お知らせ管理画面のコントローラクラス.
+ * お知らせ登録画面のコントローラクラス.
  */
 @Controller
-@RequestMapping("manager/news")
-public class NewsManagerController {
+@RequestMapping("manager/news/register/")
+public class NewsManagerRegisterController {
 
     /** ロガー */
-    private static final Logger logger = LoggerFactory.getLogger(NewsManagerController.class);
+    private static final Logger logger = LoggerFactory.getLogger(NewsManagerRegisterController.class);
 
     /** お知らせ機能のサービスクラス */
     @Autowired
     NewsService service;
+
+    @ModelAttribute
+    public NewsForm setupForm() {
+        return new NewsForm();
+    }
 
     /**
      * 権限のコンボボックスを初期化します.
@@ -46,7 +50,7 @@ public class NewsManagerController {
      * @param model : モデル
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET, path = "input")
+    @GetMapping(path = "input")
     public String input(NewsForm form,
                         Model model) {
 
@@ -55,7 +59,7 @@ public class NewsManagerController {
         }
         model.addAttribute("newsForm", form);
         this.setupRoleIdList(model);
-        return "/manager/news/newsInput";
+        return "/manager/news/register/newsRegisterInput";
     }
 
     /**
@@ -66,7 +70,7 @@ public class NewsManagerController {
      * @param redirectAttributes : リダイレクト属性
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, path = "confirm")
+    @PostMapping(path = "confirm")
     public String confirm(@Validated NewsForm form,
                           BindingResult result,
                           Model model,
@@ -80,9 +84,9 @@ public class NewsManagerController {
         // エラーチェック
         if (result.hasErrors()) {
             model.addAttribute("errorList", result.getFieldErrors());
-            return "/manager/news/newsInput";
+            return "/manager/news/register/newsInput";
         }
-        return "redirect:/manager/news/confirm?complete";
+        return "redirect:/manager/news/register/confirm?complete";
     }
 
     /**
@@ -91,11 +95,11 @@ public class NewsManagerController {
      * @param model : モデル
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET, path = "confirm", params = "complete")
+    @GetMapping(path = "confirm", params = "complete")
     public String confirmComplete(NewsForm form, Model model) {
 
         model.addAttribute("form", form);
-        return "/manager/news/newsConfirm";
+        return "/manager/news/register/newsRegisterConfirm";
     }
 
     /**
@@ -106,7 +110,7 @@ public class NewsManagerController {
      * @param redirectAttributes : リダイレクト属性
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, path = "confirm", params = "back")
+    @PostMapping(path = "complete", params = "back")
     public String backToInput(@Validated NewsForm form,
                           BindingResult result,
                           Model model,
@@ -114,7 +118,7 @@ public class NewsManagerController {
 
         // フラッシュスコープに登録
         redirectAttributes.addFlashAttribute(form);
-        return "redirect:/manager/news/input";
+        return "redirect:/manager/news/register/input";
     }
 
     /**
@@ -124,7 +128,7 @@ public class NewsManagerController {
      * @param model : モデル
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, path = "complete")
+    @PostMapping(path = "complete")
     public String complete(@Validated NewsForm form,
                           BindingResult result,
                           Model model,
@@ -143,7 +147,7 @@ public class NewsManagerController {
         BeanUtils.copyProperties(form, dto);
         service.addNews(dto);
 
-        return "redirect:/manager/news/complete?complete";
+        return "redirect:/manager/news/register/complete?complete";
     }
 
     /**
@@ -151,11 +155,11 @@ public class NewsManagerController {
      * @param model : モデル
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET, path = "complete", params = "complete")
+    @GetMapping(path = "complete", params = "complete")
     public String completeComplete(NewsForm form, Model model) {
 
         model.addAttribute("form", form);
-        return "/manager/news/newsComplete";
+        return "/manager/news/register/newsRegisterComplete";
     }
 
 }

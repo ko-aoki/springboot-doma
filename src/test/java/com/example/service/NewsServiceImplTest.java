@@ -35,11 +35,42 @@ public class NewsServiceImplTest {
         dto.setSubject("表題");
         dto.setUrl("http://a.b");
         service.addNews(dto);
-        service.addNews(dto);
 
         List<TrnNews> trnNewses = dao.selectAll();
-        assertEquals(2, trnNewses.size());
+        assertEquals(3, trnNewses.size());
 
     }
 
+    @Test
+    public void findNewsList() {
+
+        List<NewsDto> newsList = service.findNewsList("", "", "");
+        assertEquals(2, newsList.size());
+
+        newsList = service.findNewsList(null, null, null);
+        assertEquals(2, newsList.size());
+
+        newsList = service.findNewsList("テスト", null, null);
+        assertEquals(1, newsList.size());
+
+        newsList = service.findNewsList(null, "01", null);
+        assertEquals(1, newsList.size());
+
+        newsList = service.findNewsList(null, null, "http://hoge/test2");
+        assertEquals(1, newsList.size());
+    }
+
+    @Test
+    public void modifyNews() {
+        NewsDto news = service.findNews(1L);
+        assertEquals(0, news.getVersion());
+
+        news.setSubject("更新後");
+        service.modifyNews(news);
+
+        news = service.findNews(1L);
+
+        assertEquals("更新後", news.getSubject());
+        assertEquals(1, news.getVersion());
+    }
 }

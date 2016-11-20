@@ -30,14 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/loginForm").permitAll()
-//                .antMatchers("/sample").hasAnyAuthority("01")
+                .antMatchers("/manager").hasAnyAuthority("01")
                 .anyRequest().authenticated();
         http.formLogin()
                 .loginProcessingUrl("/login")
                 .loginPage("/loginForm")
                 .failureUrl("/loginForm?error")
 //                .defaultSuccessUrl("/sample", true)
-                .defaultSuccessUrl("/manager/news/input", true)
+                .defaultSuccessUrl("/manager/news/list", true)
                 .usernameParameter("id").passwordParameter("password");
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))

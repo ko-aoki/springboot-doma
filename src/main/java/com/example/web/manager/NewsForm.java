@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.URL;
  */
 public class NewsForm {
 
+    /** id */
+    private Long id;
     /** 表題 */
     @NotBlank
     private String subject;
@@ -20,7 +22,16 @@ public class NewsForm {
     @NotBlank
     @URL(message = "お知らせURLの形式が正しくありません。")
     private String url;
+    /** バージョン */
+    private int version;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getSubject() {
         return subject;
@@ -52,5 +63,13 @@ public class NewsForm {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

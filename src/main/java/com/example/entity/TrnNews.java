@@ -14,16 +14,16 @@ public class TrnNews extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer trnNewsId;
+    public Long trnNewsId;
     public String roleId;
     public String subject;
     public String url;
 
-    public Integer getTrnNewsId() {
+    public Long getTrnNewsId() {
         return trnNewsId;
     }
 
-    public void setTrnNewsId(Integer trnNewsId) {
+    public void setTrnNewsId(Long trnNewsId) {
         this.trnNewsId = trnNewsId;
     }
 

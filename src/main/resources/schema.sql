@@ -53,7 +53,7 @@ CREATE TABLE mst_role
 -- 新規テーブル
 CREATE TABLE trn_news
 (
-	trn_news_id int NOT NULL COMMENT 'trn_news_id',
+	trn_news_id int NOT NULL AUTO_INCREMENT COMMENT 'trn_news_id',
 	role_id varchar(10) NOT NULL COMMENT '権限ID',
 	subject varchar(2000) COMMENT 'subject',
 	url varchar(512) COMMENT 'url',
