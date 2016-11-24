@@ -8,6 +8,24 @@
     <!--
     固有のヘッダ情報
     -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="../../../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
+    <script>
+        /**
+         * パラメータのページを設定してsubmitします.
+         * @param page
+         */
+        function pageJump(page) {
+            $("#page").val(page)
+            $("#news-input-form").submit();
+        };
+    </script>
+    <script>
+        // ログアウト
+        $('#logout-link').on('click', function (e) {
+            $('#logout-form').submit();
+        });
+    </script>
 </head>
 <body>
 <!-- メインコンテンツ -->
@@ -20,6 +38,7 @@
                     <div id="div-cond">
                         <form id="news-input-form" action="/manager/news/list" th:action="@{/manager/news/list}"
                               th:object="${newsForm}" method="get">
+                            <input id="page" th:field="*{page}" type="hidden" />
                             <label for="subject">お知らせ表題</label>
                             <input class="form-control" id="subject" type="text" th:field="*{subject}"/>
                             <label for="role-id">権限</label>
@@ -32,11 +51,29 @@
                             <label for="url">お知らせURL</label>
                             <input class="form-control" id="url" type="text" th:field="*{url}"/>
                             <div class="form-group">
-                                <button th:type="submit" type="submit" class="btn-primary">検索</button>
+                                <button th:type="button" th:onclick="'pageJump(1);'" class="btn-primary">検索</button>
                             </div>
+                            <nav>
+                                <ul class="pagination">
+                                    <li>
+                                        <a href="#" aria-label="前のページへ">
+                                            <span aria-hidden="true">«</span>
+                                        </a>
+                                    </li>
+                                    <li th:each="page:${#numbers.sequence(1, newsList.totalPages)}">
+                                        <a th:onclick="'pageJump(${page});'" th:text="${page}"></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" aria-label="次のページへ">
+                                            <span aria-hidden="true">»</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </form>
                     </div>
                     <div id="div-list">
+
                         <table class="table table-striped table-bordered table-condensed"><!-- (3) -->
                             <thead class="thead-inverse">
                             <tr>
@@ -49,7 +86,7 @@
                                 <th>URL</th>
                             </tr>
                             </thead>
-                            <div th:remove="tag" th:each="news : ${newsList}">
+                            <div th:remove="tag" th:each="news : ${newsList.content}">
                                 <tr>
                                     <td rowspan="2" th:text="${news.id}"></td>
                                     <td rowspan="2" th:text="${news.roleNm}"></td>
@@ -69,13 +106,5 @@
         </div>
     </div>
 </div>
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="../../../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
-<script>
-    // ログアウト
-    $('#logout-link').on('click', function (e) {
-        $('#logout-form').submit();
-    });
-</script>
 </body>
 </html>

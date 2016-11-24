@@ -6,11 +6,9 @@ package com.example.dao;
 
 import com.example.dto.NewsDto;
 import com.example.entity.TrnNews;
-import org.seasar.doma.Dao;
-import org.seasar.doma.Insert;
-import org.seasar.doma.Select;
-import org.seasar.doma.Update;
+import org.seasar.doma.*;
 import org.seasar.doma.boot.ConfigAutowireable;
+import org.seasar.doma.jdbc.SelectOptions;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,7 +21,7 @@ public interface TrnNewsDao {
     List<TrnNews> selectAll();
 
     @Select
-    List<NewsDto> selectNewsDtoByCond(String subject, String roleId, String url);
+    List<NewsDto> selectNewsDtoByCond(String subject, String roleId, String url, SelectOptions selectOptions);
 
     @Select
     NewsDto selectOneNewsDto(Long id);
@@ -35,4 +33,8 @@ public interface TrnNewsDao {
     @Update
     @Transactional
     int update(TrnNews trn);
+
+    @Delete
+    @Transactional
+    int delete(TrnNews trn);
 }

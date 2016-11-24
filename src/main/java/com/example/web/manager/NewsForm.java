@@ -10,6 +10,8 @@ public class NewsForm {
 
     /** id */
     private Long id;
+    /** ページ */
+    private Integer page;
     /** 表題 */
     @NotBlank
     private String subject;
@@ -31,6 +33,14 @@ public class NewsForm {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
     }
 
     public String getSubject() {

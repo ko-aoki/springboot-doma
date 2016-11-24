@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.dto.NewsDto;
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -43,8 +44,9 @@ public interface NewsService {
      * @param subject:表題
      * @param roleId:権限ID
      * @param url:URL
-     * @return お知らせ情報リスト
+     * @param page:検索ページ
+     * @return お知らせ情報ページ情報
      */
-    List<NewsDto> findNewsList(String subject, String roleId, String url);
+    Page<NewsDto> findNewsPage(String subject, String roleId, String url, int page);
 
 }

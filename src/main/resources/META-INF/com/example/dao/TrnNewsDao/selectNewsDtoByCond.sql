@@ -23,3 +23,5 @@ AND
 AND
     n.role_id = /* roleId */'01'
 /*%end*/
+ORDER BY
+  n.trn_news_id

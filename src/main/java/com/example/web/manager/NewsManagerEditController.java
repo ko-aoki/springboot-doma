@@ -2,11 +2,11 @@ package com.example.web.manager;
 
 import com.example.dto.NewsDto;
 import com.example.service.NewsService;
-import org.seasar.doma.jdbc.OptimisticLockException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -150,7 +150,8 @@ public class NewsManagerEditController {
         BeanUtils.copyProperties(form, dto);
         try {
             service.modifyNews(dto);
-        } catch (OptimisticLockException e) {
+        } catch (OptimisticLockingFailureException e) {
+            // 楽観排他処理
             // TODO メッセージ
             return "redirect:/manager/news/edit/comfirm?complete";
         }

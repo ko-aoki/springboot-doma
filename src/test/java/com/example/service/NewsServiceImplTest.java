@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -37,34 +39,74 @@ public class NewsServiceImplTest {
         service.addNews(dto);
 
         List<TrnNews> trnNewses = dao.selectAll();
-        assertEquals(3, trnNewses.size());
+        assertEquals(12, trnNewses.size());
 
+        TrnNews trnNews = new TrnNews();
+        // ゴミ掃除
+        trnNews.setTrnNewsId(12L);
+        dao.delete(trnNews);
     }
 
     @Test
-    public void findNewsList() {
+    public void findNewsPage() {
 
-        List<NewsDto> newsList = service.findNewsList("", "", "");
-        assertEquals(2, newsList.size());
+        // 条件なし 1ページ
+        Page<NewsDto> newsList = service.findNewsPage("", "", "", 0);
+        System.out.println(newsList.getContent().size());
+        System.out.println(newsList.getSize());
+        System.out.println(newsList.getNumber());
+        System.out.println(newsList.getNumberOfElements());
+        System.out.println(newsList.getTotalElements());
+        System.out.println(newsList.getTotalPages());
 
-        newsList = service.findNewsList(null, null, null);
-        assertEquals(2, newsList.size());
+        assertEquals(11, newsList.getTotalElements());
+        assertEquals(5, newsList.getNumberOfElements());
+        assertEquals(3, newsList.getTotalPages());
 
-        newsList = service.findNewsList("テスト", null, null);
-        assertEquals(1, newsList.size());
+        // 条件なし 2ページ
+        newsList = service.findNewsPage("", "", "", 1);
+        assertEquals(11, newsList.getTotalElements());
+        assertEquals(5, newsList.getNumberOfElements());
+        assertEquals(3, newsList.getTotalPages());
 
-        newsList = service.findNewsList(null, "01", null);
-        assertEquals(1, newsList.size());
+        // 条件なし 3ページ
+        newsList = service.findNewsPage("", "", "", 2);
+        assertEquals(11, newsList.getTotalElements());
+        assertEquals(1, newsList.getNumberOfElements());
+        assertEquals(3, newsList.getTotalPages());
 
-        newsList = service.findNewsList(null, null, "http://hoge/test2");
-        assertEquals(1, newsList.size());
+
+        // 条件なし 1ページ
+        newsList = service.findNewsPage(null, null, null, 0);
+        assertEquals(11, newsList.getTotalElements());
+        assertEquals(5, newsList.getNumberOfElements());
+        assertEquals(3, newsList.getTotalPages());
+
+        // 表題：テスト 1ページ
+        newsList = service.findNewsPage("テスト", null, null, 0);
+
+        assertEquals(9, newsList.getTotalElements());
+        assertEquals(5, newsList.getNumberOfElements());
+        assertEquals(2, newsList.getTotalPages());
+
+        // 権限：01
+        newsList = service.findNewsPage(null, "01", null, 0);
+        assertEquals(2, newsList.getTotalElements());
+        assertEquals(2, newsList.getNumberOfElements());
+        assertEquals(1, newsList.getTotalPages());
+
+        // URL:http://hoge/test2
+        newsList = service.findNewsPage(null, null, "http://hoge/test2", 0);
+        assertEquals(1, newsList.getTotalElements());
+        assertEquals(1, newsList.getNumberOfElements());
+        assertEquals(1, newsList.getTotalPages());
     }
 
     @Test
     public void modifyNews() {
         NewsDto news = service.findNews(1L);
         assertEquals(0, news.getVersion());
-
+        // 正常
         news.setSubject("更新後");
         service.modifyNews(news);
 
@@ -72,5 +114,14 @@ public class NewsServiceImplTest {
 
         assertEquals("更新後", news.getSubject());
         assertEquals(1, news.getVersion());
+
+        // 楽観排他
+        news.setSubject("更新後");
+        try {
+            service.modifyNews(news);
+            service.modifyNews(news);
+        } catch (OptimisticLockingFailureException e) {
+            assertEquals(true, true);
+        }
     }
 }
