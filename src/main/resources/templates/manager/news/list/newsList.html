@@ -16,7 +16,7 @@
          * @param page
          */
         function pageJump(page) {
-            $("#page").val(page)
+            $("#page").val(page);
             $("#news-input-form").submit();
         };
     </script>
@@ -53,18 +53,21 @@
                             <div class="form-group">
                                 <button th:type="button" th:onclick="'pageJump(1);'" class="btn-primary">検索</button>
                             </div>
-                            <nav>
+                            <nav th:if="${newsList}">
                                 <ul class="pagination">
-                                    <li>
-                                        <a href="#" aria-label="前のページへ">
+                                    <li th:classappend="*{page le 1} ? 'disabled'">
+                                        <a th:onclick="'pageJump(1);'"
+                                           aria-label="前のページへ">
                                             <span aria-hidden="true">«</span>
                                         </a>
                                     </li>
-                                    <li th:each="page:${#numbers.sequence(1, newsList.totalPages)}">
-                                        <a th:onclick="'pageJump(${page});'" th:text="${page}"></a>
+                                    <li th:each="pageNum : ${#numbers.sequence(1, newsList.totalPages)}"
+                                        th:classappend="${newsForm.page == pageNum} ? 'active'">
+                                        <a th:onclick="'pageJump(' + ${pageNum} + ');'" th:text="${pageNum}"></a>
                                     </li>
-                                    <li>
-                                        <a href="#" aria-label="次のページへ">
+                                    <li th:classappend="${newsForm.page ge newsList.totalPages} ? 'disabled'">
+                                        <a th:onclick="'pageJump(' + ${newsList.totalPages} + ');'"
+                                           aria-label="次のページへ">
                                             <span aria-hidden="true">»</span>
                                         </a>
                                     </li>
@@ -72,12 +75,12 @@
                             </nav>
                         </form>
                     </div>
-                    <div id="div-list">
+                    <div id="div-list" th:if="${newsList}">
 
-                        <table class="table table-striped table-bordered table-condensed"><!-- (3) -->
-                            <thead class="thead-inverse">
+                        <table class="table table-bordered">
+                            <thead class="bg-primary">
                             <tr>
-                                <th rowspan="2">No.</th>
+                                <th rowspan="2">ID</th>
                                 <th rowspan="2">権限</th>
                                 <th>表題</th>
                                 <th rowspan="2">編集</th>
@@ -87,7 +90,7 @@
                             </tr>
                             </thead>
                             <div th:remove="tag" th:each="news : ${newsList.content}">
-                                <tr>
+                                <tr th:classappend="${newsStat.odd} ? 'bg-info'">
                                     <td rowspan="2" th:text="${news.id}"></td>
                                     <td rowspan="2" th:text="${news.roleNm}"></td>
                                     <td th:text="${news.subject}"></td>
@@ -95,7 +98,7 @@
                                         <a th:href="@{'/manager/news/edit/input/' + ${news.id}}">修正</a>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr th:classappend="${newsStat.odd} ? 'bg-info'">
                                     <td th:text="${news.url}"></td>
                                 </tr>
                             </div>
