@@ -36,7 +36,7 @@ public class NewsServiceImpl implements NewsService {
 
         List<MstRole> mstRoles = mstRoleDao.selectAll();
         Map<String, String> roleIdMap = new HashMap<>();
-        mstRoles.stream().forEach(mstRole -> roleIdMap.put(mstRole.roleId, mstRole.roleName));
+        mstRoles.stream().forEach(mstRole -> roleIdMap.put(mstRole.getRoleId(), mstRole.getRoleName()));
 
         return roleIdMap;
     }

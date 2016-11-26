@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS trn_news;
 CREATE TABLE mst_employee
 (
 	employee_id varchar(10) NOT NULL COMMENT '従業員番号',
-	employee_last_name varchar(20) COMMENT '姓',
-	employee_first_name varchar(20) COMMENT '名',
+	employee_last_name varchar(50) COMMENT '姓',
+	employee_first_name varchar(50) COMMENT '名',
 	role_id varchar(10) NOT NULL COMMENT '権限ID',
 	version int COMMENT 'バージョン',
 	insert_user varchar(20) COMMENT '登録ユーザ',
@@ -39,8 +39,8 @@ CREATE TABLE mst_password
 -- 権限マスタ
 CREATE TABLE mst_role
 (
-	role_id varchar(10) NOT NULL COMMENT '権限ID',
-	role_name varchar(60) COMMENT '権限名',
+	role_id varchar(20) NOT NULL COMMENT '権限ID',
+	role_name varchar(100) COMMENT '権限名',
 	version int COMMENT 'バージョン',
 	insert_user varchar(20) COMMENT '登録ユーザ',
 	insert_date datetime COMMENT 'insert_date',

@@ -19,13 +19,20 @@ public class AuditListener<T extends AuditEntity> implements EntityListener<T> {
     @Override
     public void preInsert(T auditEntity, PreInsertContext<T> context) {
         UserInfo userInfo = this.getUserInfo();
-        auditEntity.insertDate = LocalDateTime.now();
+        if (userInfo != null) {
+            auditEntity.setInsertUser(userInfo.getId());
+        }
+        auditEntity.setInsertDate(LocalDateTime.now());
     }
 
     @Override
     public void preUpdate(T auditEntity, PreUpdateContext<T> context) {
 
-        auditEntity.updateDate = LocalDateTime.now();
+        UserInfo userInfo = this.getUserInfo();
+        if (userInfo != null) {
+            auditEntity.setUpdateUser(userInfo.getId());
+        }
+        auditEntity.setUpdateDate(LocalDateTime.now());
     }
 
     private UserInfo getUserInfo() {

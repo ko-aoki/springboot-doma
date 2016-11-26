@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,11 +32,9 @@ public class NewsManagerListController {
      * 権限のコンボボックスを初期化します.
      * @return
      */
-    private Map<String, String> setupRoleIdList(Model model) {
-
-        Map<String, String> roleIdMap = service.retrieveRoleIdMap();
-        model.addAttribute("roleIdMap", roleIdMap);
-        return roleIdMap;
+    @ModelAttribute
+    public Map<String, String> setupRoleIdMap() {
+        return service.retrieveRoleIdMap();
     }
 
     @ModelAttribute
@@ -53,8 +50,6 @@ public class NewsManagerListController {
     @GetMapping
     public String display(NewsForm form,
                         Model model) {
-
-        this.setupRoleIdList(model);
 
         int page = 0;
         if (form.getPage() == null) {

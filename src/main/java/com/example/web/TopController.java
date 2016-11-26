@@ -19,23 +19,22 @@ import java.io.File;
 import java.io.FileInputStream;
 
 @Controller
-@RequestMapping("sample")
-public class SampleController {
+@RequestMapping("/")
+public class TopController {
 
     @Value("${app.uploadPath}")
     private String UPLOAD_PATH;
 
     /** ロガー */
-    private static final Logger logger = LoggerFactory.getLogger(SampleController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TopController.class);
 
     /**
      *
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String sample(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
+    public String top(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 
-        model.addAttribute("loginInfo", userDetails.getUserInfo());
         return "top/top";
     }
 

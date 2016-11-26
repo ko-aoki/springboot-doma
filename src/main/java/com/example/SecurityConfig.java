@@ -22,23 +22,20 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/webjars/**", "/css/**");
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/loginForm").permitAll()
-                .antMatchers("/manager").hasAnyAuthority("01")
+                // /manager配下はADMIN権限のみ(自動でROLE_が付加されROLE_ADMIN)
+                .antMatchers("/manager/**").hasRole("ADMIN")
+                // 認証していないリクエストは不許可
                 .anyRequest().authenticated();
         http.formLogin()
                 .loginProcessingUrl("/login")
                 .loginPage("/loginForm")
                 .failureUrl("/loginForm?error")
-//                .defaultSuccessUrl("/sample", true)
-                .defaultSuccessUrl("/manager/news/list", true)
-                .usernameParameter("id").passwordParameter("password");
+                .defaultSuccessUrl("/", true)
+                .usernameParameter("id")
+                .passwordParameter("password");
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
                 .logoutSuccessUrl("/loginForm");

@@ -11,6 +11,8 @@
     <title>基幹システム</title>
     <link rel="stylesheet" type="text/css" href="../../../static/css/lib/bootstrap.min.css" th:href="@{/css/lib/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" href="../../../static/css/lib/bootstrap-theme.min.css" th:href="@{/css/lib/bootstrap-theme.min.css}"/>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="../../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
     <style>
         body {
             padding-top: 70px;
@@ -33,7 +35,7 @@
             <form id="logout-form" action="/logout" th:action="@{/logout}">
             </form>
             <ul class="nav navbar-nav pull-right">
-                <li><a href="index.html">サイト確認</a></li>
+                <li><a href="/top/top.html" th:href="@{/}">トップへ</a></li>
                 <li><a href="#config">設定</a></li>
                 <li class="nav-divider"></li>
                 <li class="dropdown">
@@ -42,7 +44,7 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#users/update"><span class="glyphicon glyphicon-edit"></span> ユーザー情報変更</a>
+                        <li><a href="#"><span class="glyphicon glyphicon-edit"></span> ユーザー情報変更</a>
                         </li>
                         <li><a  id="logout-link" href="#logout"><span class="glyphicon glyphicon-off"></span> ログアウト</a></li>
                     </ul>
@@ -58,8 +60,6 @@
         <div layout:fragment="content"></div>
     </div>
 </div>
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="../../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
 <script>
     // ログアウト
     $('#logout-link').on('click', function (e) {

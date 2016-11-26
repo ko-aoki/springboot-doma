@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 public class AuditEntity {
 
     @Version
-    public int version;
-    public String insertUser;
-    public LocalDateTime insertDate;
-    public String updateUser;
-    public LocalDateTime updateDate;
+    private int version;
+    private String insertUser;
+    private LocalDateTime insertDate;
+    private String updateUser;
+    private LocalDateTime updateDate;
 
     public int getVersion() {
         return version;

@@ -1,7 +1,10 @@
 package com.example.security;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
+
+import java.util.Collection;
 
 /**
  * Created by ko-aoki on 2016/09/03.

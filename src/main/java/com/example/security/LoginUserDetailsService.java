@@ -23,11 +23,11 @@ public class LoginUserDetailsService implements UserDetailsService {
 
         UserInfo userInfo = new UserInfo();
 
-        userInfo.setId(user.employeeId);
-        userInfo.setEmployeeFirstName(user.employeeFirstName);
-        userInfo.setEmployeeLastName(user.employeeLastName);
-        userInfo.setRoleId(user.roleId);
-        userInfo.setPassword(user.password);
+        userInfo.setId(user.getEmployeeId());
+        userInfo.setEmployeeFirstName(user.getEmployeeFirstName());
+        userInfo.setEmployeeLastName(user.getEmployeeLastName());
+        userInfo.setRoleId(user.getRoleId());
+        userInfo.setPassword(user.getPassword());
 
         if (userInfo == null) {
             throw new UsernameNotFoundException("The requested user is not found.");

@@ -8,8 +8,6 @@
     <!--
     固有のヘッダ情報
     -->
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="../../../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
     <script>
         /**
          * パラメータのページを設定してsubmitします.
@@ -19,12 +17,6 @@
             $("#page").val(page);
             $("#news-input-form").submit();
         };
-    </script>
-    <script>
-        // ログアウト
-        $('#logout-link').on('click', function (e) {
-            $('#logout-form').submit();
-        });
     </script>
 </head>
 <body>
@@ -50,8 +42,14 @@
                             </select>
                             <label for="url">お知らせURL</label>
                             <input class="form-control" id="url" type="text" th:field="*{url}"/>
-                            <div class="form-group">
-                                <button th:type="button" th:onclick="'pageJump(1);'" class="btn-primary">検索</button>
+                            <br/>
+                            <div class="row">
+                                <div class="form-group col col-sm-10">
+                                    <button th:type="button" th:onclick="'pageJump(1);'" class="btn-primary">検索</button>
+                                </div>
+                                <div class="col col-sm-2">
+                                    <a th:href="@{'/manager/news/register/input'}">新規作成</a>
+                                </div>
                             </div>
                             <nav th:if="${newsList}">
                                 <ul class="pagination">
