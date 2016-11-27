@@ -65,6 +65,9 @@
     $('#logout-link').on('click', function (e) {
         $('#logout-form').submit();
     });
-</script>
+    // 二重サブミット抑止
+    $("form").submit(function() {
+        $(":submit", this).prop("disabled", true);
+    });</script>
 </body>
 </html>

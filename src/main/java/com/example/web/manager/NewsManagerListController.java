@@ -32,7 +32,7 @@ public class NewsManagerListController {
      * 権限のコンボボックスを初期化します.
      * @return
      */
-    @ModelAttribute
+    @ModelAttribute("roleIdMap")
     public Map<String, String> setupRoleIdMap() {
         return service.retrieveRoleIdMap();
     }

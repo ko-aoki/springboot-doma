@@ -53,7 +53,12 @@
                             </div>
                             <nav th:if="${newsList}">
                                 <ul class="pagination">
-                                    <li th:classappend="*{page le 1} ? 'disabled'">
+                                    <li th:if="*{page le 1}" class="disabled">
+                                        <a aria-label="前のページへ">
+                                            <span aria-hidden="true">«</span>
+                                        </a>
+                                    </li>
+                                    <li th:unless="*{page le 1}">
                                         <a th:onclick="'pageJump(1);'"
                                            aria-label="前のページへ">
                                             <span aria-hidden="true">«</span>
@@ -63,7 +68,12 @@
                                         th:classappend="${newsForm.page == pageNum} ? 'active'">
                                         <a th:onclick="'pageJump(' + ${pageNum} + ');'" th:text="${pageNum}"></a>
                                     </li>
-                                    <li th:classappend="${newsForm.page ge newsList.totalPages} ? 'disabled'">
+                                    <li th:if="${newsForm.page ge newsList.totalPages}" class="disabled">
+                                        <a aria-label="次のページへ">
+                                            <span aria-hidden="true">»</span>
+                                        </a>
+                                    </li>
+                                    <li th:unless="${newsForm.page ge newsList.totalPages}">
                                         <a th:onclick="'pageJump(' + ${newsList.totalPages} + ');'"
                                            aria-label="次のページへ">
                                             <span aria-hidden="true">»</span>
