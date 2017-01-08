@@ -4,7 +4,6 @@ import com.example.dto.NewsDto;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
 
 /**

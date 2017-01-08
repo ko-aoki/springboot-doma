@@ -5,26 +5,26 @@ import org.seasar.doma.*;
 import org.seasar.doma.jdbc.entity.NamingType;
 
 /**
- * Created by ko-aoki on 2016/09/01.
+ * お知らせマスタエンティティ.
  */
 
 @Entity(naming = NamingType.SNAKE_LOWER_CASE, listener = AuditListener.class)
-@Table(name = "trn_news")
-public class TrnNews extends AuditEntity {
+@Table(name = "mst_news")
+public class MstNews extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long trnNewsId;
+    private Long mstNewsId;
     private String roleId;
     private String subject;
     private String url;
 
-    public Long getTrnNewsId() {
-        return trnNewsId;
+    public Long getMstNewsId() {
+        return mstNewsId;
     }
 
-    public void setTrnNewsId(Long trnNewsId) {
-        this.trnNewsId = trnNewsId;
+    public void setMstNewsId(Long mstNewsId) {
+        this.mstNewsId = mstNewsId;
     }
 
     public String getRoleId() {

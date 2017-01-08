@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 /**
- * Created by ko-aoki on 2016/11/01.
+ * お知らせ画面フォームクラス.
  */
 public class NewsForm {
 

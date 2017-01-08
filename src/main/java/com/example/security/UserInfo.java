@@ -1,7 +1,7 @@
 package com.example.security;
 
 /**
- * Created by ko-aoki on 2016/09/04.
+ * ログイン時に取得するユーザ情報.
  */
 public class UserInfo {
 

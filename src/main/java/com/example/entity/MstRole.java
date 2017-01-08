@@ -6,7 +6,7 @@ import org.seasar.doma.Table;
 import org.seasar.doma.jdbc.entity.NamingType;
 
 /**
- * Created by ko-aoki on 2016/09/01.
+ * 権限マスタエンティティ.
  */
 
 @Entity(naming = NamingType.SNAKE_LOWER_CASE)

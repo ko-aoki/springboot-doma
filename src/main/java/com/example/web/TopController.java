@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 
+/**
+ * トップ画面のコントローラ.
+ */
 @Controller
 @RequestMapping("/")
 public class TopController {
@@ -29,7 +32,7 @@ public class TopController {
     private static final Logger logger = LoggerFactory.getLogger(TopController.class);
 
     /**
-     *
+     * トップ画面.
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
@@ -40,10 +43,10 @@ public class TopController {
 
     /**
      *
+     * 動画を送信するstream.
      * http://stackoverflow.com/questions/29073085/streaming-large-video-using-spring-mvc
      * @return
      */
-
     @RequestMapping(value="video/{fileName}", method = RequestMethod.GET)
     public void stream(@PathVariable String fileName,
                        HttpServletResponse response, @AuthenticationPrincipal LoginUserDetails userDetails) {

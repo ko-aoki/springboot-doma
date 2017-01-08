@@ -5,7 +5,7 @@ package com.example.dao;
  */
 
 import com.example.dto.NewsDto;
-import com.example.entity.TrnNews;
+import com.example.entity.MstNews;
 import org.seasar.doma.*;
 import org.seasar.doma.boot.ConfigAutowireable;
 import org.seasar.doma.jdbc.SelectOptions;
@@ -13,12 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * お知らせマスタのDaoインターフェース.
+ */
 @ConfigAutowireable
 @Dao
-public interface TrnNewsDao {
+public interface MstNewsDao {
 
     @Select
-    List<TrnNews> selectAll();
+    List<MstNews> selectAll();
 
     @Select
     List<NewsDto> selectNewsDtoByCond(String subject, String roleId, String url, SelectOptions selectOptions);
@@ -28,13 +31,13 @@ public interface TrnNewsDao {
 
     @Insert
     @Transactional
-    int insert(TrnNews trn);
+    int insert(MstNews trn);
 
     @Update
     @Transactional
-    int update(TrnNews trn);
+    int update(MstNews trn);
 
     @Delete
     @Transactional
-    int delete(TrnNews trn);
+    int delete(MstNews trn);
 }

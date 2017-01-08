@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+/**
+ * お知らせ画面のコントローラ.
+ */
 @Controller
 @RequestMapping("news")
 public class NewsController {
@@ -21,7 +24,7 @@ public class NewsController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public String sample(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
+    public String init(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 
         model.addAttribute("loginInfo", userDetails.getUserInfo());
         return "news/news";

@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
- * Created by ko-aoki on 2016/09/03.
+ * Spring Security設定.
  */
 @Configuration
 @EnableWebSecurity

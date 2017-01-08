@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
- * Created by ko-aoki on 2016/09/03.
+ * Spring Securityで使用するログイン時に取得するユーザ情報サービスクラス.
  */
 @Service
 public class LoginUserDetailsService implements UserDetailsService {

@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * 従業員マスタのDaoインターフェース.
+ */
 @ConfigAutowireable
 @Dao
 public interface MstEmployeeDao {

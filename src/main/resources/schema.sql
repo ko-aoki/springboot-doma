@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS mst_employee;
 DROP TABLE IF EXISTS mst_password;
 DROP TABLE IF EXISTS mst_role;
-DROP TABLE IF EXISTS trn_news;
+DROP TABLE IF EXISTS mst_news;
 
 -- 従業員マスタ
 CREATE TABLE mst_employee
@@ -51,9 +51,9 @@ CREATE TABLE mst_role
 
 
 -- 新規テーブル
-CREATE TABLE trn_news
+CREATE TABLE mst_news
 (
-	trn_news_id int NOT NULL AUTO_INCREMENT COMMENT 'trn_news_id',
+	mst_news_id int NOT NULL AUTO_INCREMENT COMMENT 'mst_news_id',
 	role_id varchar(10) NOT NULL COMMENT '権限ID',
 	subject varchar(2000) COMMENT 'subject',
 	url varchar(512) COMMENT 'url',
@@ -62,5 +62,5 @@ CREATE TABLE trn_news
 	insert_date datetime COMMENT 'insert_date',
 	update_user varchar(20) COMMENT '更新ユーザ',
 	update_date datetime COMMENT 'update_date',
-	PRIMARY KEY (trn_news_id)
+	PRIMARY KEY (mst_news_id)
 ) COMMENT = '新規テーブル';

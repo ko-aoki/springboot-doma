@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * 権限マスタのDaoインターフェース.
+ */
 @ConfigAutowireable
 @Dao
 public interface MstRoleDao {

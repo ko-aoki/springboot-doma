@@ -1,0 +1,10 @@
+select
+  mst_news_id,
+  role_id,
+  subject,
+  url,
+  version,
+  insert_date,
+  update_date
+FROM
+  mst_news

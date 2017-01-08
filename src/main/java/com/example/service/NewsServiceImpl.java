@@ -1,10 +1,10 @@
 package com.example.service;
 
+import com.example.dao.MstNewsDao;
 import com.example.dao.MstRoleDao;
-import com.example.dao.TrnNewsDao;
 import com.example.dto.NewsDto;
+import com.example.entity.MstNews;
 import com.example.entity.MstRole;
-import com.example.entity.TrnNews;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,12 @@ import java.util.Map;
 
 /**
  * お知らせ情報を操作するサービスクラス.
- * Created by ko-aoki on 2016/11/06.
  */
 @Service
 public class NewsServiceImpl implements NewsService {
 
     @Autowired
-    TrnNewsDao dao;
+    MstNewsDao dao;
 
     @Autowired
     MstRoleDao mstRoleDao;
@@ -44,7 +43,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void addNews(NewsDto dto) {
 
-        TrnNews trn = new TrnNews();
+        MstNews trn = new MstNews();
         BeanUtils.copyProperties(dto, trn);
 
         dao.insert(trn);
@@ -53,11 +52,11 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void modifyNews(NewsDto dto) {
 
-        TrnNews trnNews = new TrnNews();
-        BeanUtils.copyProperties(dto, trnNews);
-        trnNews.setTrnNewsId(dto.getId());
+        MstNews mstNews = new MstNews();
+        BeanUtils.copyProperties(dto, mstNews);
+        mstNews.setMstNewsId(dto.getId());
 
-        dao.update(trnNews);
+        dao.update(mstNews);
     }
 
     @Override

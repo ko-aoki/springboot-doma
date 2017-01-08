@@ -1,8 +1,8 @@
 package com.example.service;
 
-import com.example.dao.TrnNewsDao;
+import com.example.dao.MstNewsDao;
 import com.example.dto.NewsDto;
-import com.example.entity.TrnNews;
+import com.example.entity.MstNews;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class NewsServiceImplTest {
     @Autowired
     NewsService service;
     @Autowired
-    TrnNewsDao dao;
+    MstNewsDao dao;
 
     @Test
     public void addNews() throws Exception {
@@ -38,13 +38,13 @@ public class NewsServiceImplTest {
         dto.setUrl("http://a.b");
         service.addNews(dto);
 
-        List<TrnNews> trnNewses = dao.selectAll();
-        assertEquals(12, trnNewses.size());
+        List<MstNews> mstNewses = dao.selectAll();
+        assertEquals(12, mstNewses.size());
 
-        TrnNews trnNews = new TrnNews();
+        MstNews mstNews = new MstNews();
         // ゴミ掃除
-        trnNews.setTrnNewsId(12L);
-        dao.delete(trnNews);
+        mstNews.setMstNewsId(12L);
+        dao.delete(mstNews);
     }
 
     @Test
@@ -89,8 +89,8 @@ public class NewsServiceImplTest {
         assertEquals(5, newsList.getNumberOfElements());
         assertEquals(2, newsList.getTotalPages());
 
-        // 権限：01
-        newsList = service.findNewsPage(null, "01", null, 0);
+        // 権限：ROLE_ADMIN
+        newsList = service.findNewsPage(null, "ROLE_ADMIN", null, 0);
         assertEquals(2, newsList.getTotalElements());
         assertEquals(2, newsList.getNumberOfElements());
         assertEquals(1, newsList.getTotalPages());
