@@ -11,4 +11,4 @@ doma:
 server:
   contextPath: /edu
 app:
-  uploadPath: ~/dev/Java/ide/ws/springboot-doma/work/testdata/
+  uploadPath: ./testdata/

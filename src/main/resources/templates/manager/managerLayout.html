@@ -67,7 +67,15 @@
     });
     // 二重サブミット抑止
     $("form").submit(function() {
-        $(":submit", this).prop("disabled", true);
-    });</script>
+        // submit対象のform
+        var frm = $(this).parents('form');
+        // disable対象のパラメータを保持
+        if ($(this).attr('name') !== undefined) {
+            var disabled = '<input type="hidden" name="' + $(this).name() + '" />';
+            frm.append(disabled);
+        }
+        $("input[type='submit']").prop("disabled", true);
+    });
+</script>
 </body>
 </html>

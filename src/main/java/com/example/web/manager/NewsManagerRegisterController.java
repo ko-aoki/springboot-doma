@@ -19,7 +19,7 @@ import java.util.Map;
  * お知らせ登録画面のコントローラクラス.
  */
 @Controller
-@RequestMapping("manager/news/register/")
+@RequestMapping("manager/news/register")
 public class NewsManagerRegisterController {
 
     /** ロガー */
@@ -29,36 +29,38 @@ public class NewsManagerRegisterController {
     @Autowired
     NewsService service;
 
-    @ModelAttribute
-    public NewsForm setupForm() {
-        return new NewsForm();
-    }
+    /** 権限のコンボボックス用マップ */
+    private Map<String, String> roleIdMap;
 
     /**
      * 権限のコンボボックスを初期化します.
      * @return
      */
-    private Map<String, String> setupRoleIdList(Model model) {
+    @ModelAttribute(value="roleIdMap")
+    public Map<String, String> setupRoleIdMap() {
 
-        Map<String, String> roleIdMap = service.retrieveRoleIdMap();
-        model.addAttribute("roleIdMap", roleIdMap);
-        return roleIdMap;
+        if (this.roleIdMap == null) {
+            this.roleIdMap = service.retrieveRoleIdMap();
+        }
+        return this.roleIdMap;
     }
 
     /**
      * 「重要なお知らせ」入力画面を表示します.
+     * @param form : お知らせForm
+     * @param back : 「戻る」パラメータ
      * @param model : モデル
      * @return
      */
-    @GetMapping(path = "input")
+    @RequestMapping(params = "input")
     public String input(NewsForm form,
+                        @RequestParam(required = false) String back,
                         Model model) {
 
-        if (form == null) {
+        if (back == null) {
             form = new NewsForm();
         }
-        model.addAttribute("newsForm", form);
-        this.setupRoleIdList(model);
+        model.addAttribute("form", form);
         return "/manager/news/register/newsRegisterInput";
     }
 
@@ -67,58 +69,41 @@ public class NewsManagerRegisterController {
      * @param form : お知らせForm
      * @param result : バリデーション結果
      * @param model : モデル
-     * @param redirectAttributes : リダイレクト属性
      * @return
      */
-    @PostMapping(path = "confirm")
+    @PostMapping(params = "confirm")
     public String confirm(@Validated NewsForm form,
                           BindingResult result,
-                          Model model,
-                          RedirectAttributes redirectAttributes) {
+                          Model model) {
 
         // 権限名を設定
-        Map<String, String> roleIdMap = service.retrieveRoleIdMap();
+        form.setRoleNm(this.roleIdMap.get(form.getRoleId()));
         form.setRoleNm(roleIdMap.get(form.getRoleId()));
-        // フラッシュスコープに登録
-        redirectAttributes.addFlashAttribute(form);
+        model.addAttribute("form", form);
+
         // エラーチェック
         if (result.hasErrors()) {
             model.addAttribute("errorList", result.getFieldErrors());
-            return "/manager/news/register/newsInput";
+            return "/manager/news/register/newsRegisterInput";
         }
-        return "redirect:/manager/news/register/confirm?complete";
-    }
-
-    /**
-     * 「重要なお知らせ」確認画面を表示します.
-     * @param form : お知らせForm
-     * @param model : モデル
-     * @return
-     */
-    @GetMapping(path = "confirm", params = "complete")
-    public String confirmComplete(NewsForm form, Model model) {
-
-        model.addAttribute("form", form);
         return "/manager/news/register/newsRegisterConfirm";
     }
 
     /**
-     * 「重要なお知らせ」確認画面から入力画面にします.
+     * 「重要なお知らせ」確認画面から入力画面に遷移します.
      * @param form : お知らせForm
      * @param result : バリデーション結果
      * @param model : モデル
-     * @param redirectAttributes : リダイレクト属性
      * @return
      */
-    @PostMapping(path = "complete", params = "back")
+    @PostMapping(params = "back")
     public String backToInput(@Validated NewsForm form,
                           BindingResult result,
-                          Model model,
-                          RedirectAttributes redirectAttributes) {
+                          Model model) {
 
-        // フラッシュスコープに登録
-        redirectAttributes.addFlashAttribute(form);
-        return "redirect:/manager/news/register/input";
+        model.addAttribute("form", form);
+
+        return "/manager/news/register/newsRegisterInput";
     }
 
     /**
@@ -128,8 +113,8 @@ public class NewsManagerRegisterController {
      * @param model : モデル
      * @return
      */
-    @PostMapping(path = "complete")
-    public String complete(@Validated NewsForm form,
+    @PostMapping(params = "register")
+    public String register(@Validated NewsForm form,
                           BindingResult result,
                           Model model,
                           RedirectAttributes redirectAttributes) {
@@ -147,16 +132,17 @@ public class NewsManagerRegisterController {
         BeanUtils.copyProperties(form, dto);
         service.addNews(dto);
 
-        return "redirect:/manager/news/register/complete?complete";
+        return "redirect:/manager/news/register?complete";
     }
 
     /**
      * 「重要なお知らせ」完了画面を表示します.
+     * @param form : お知らせForm
      * @param model : モデル
      * @return
      */
-    @GetMapping(path = "complete", params = "complete")
-    public String completeComplete(NewsForm form, Model model) {
+    @GetMapping(params = "complete")
+    public String complete(NewsForm form, Model model) {
 
         model.addAttribute("form", form);
         return "/manager/news/register/newsRegisterComplete";

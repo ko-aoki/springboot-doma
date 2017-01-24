@@ -8,13 +8,13 @@ import org.seasar.doma.jdbc.entity.NamingType;
 /**
  * 権限マスタエンティティ.
  */
-
 @Entity(naming = NamingType.SNAKE_LOWER_CASE)
 @Table(name = "mst_role")
 public class MstRole extends AuditEntity {
 
     @Id
     private String roleId;
+
     private String roleName;
 
     public String getRoleId() {

@@ -18,19 +18,19 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」更新確認画面</h3></div>
                     <br/>
-                    <form id="entry-input-form" action="/manager/news/edit/complete"
-                          th:action="@{/manager/news/edit/complete}" th:object="${form}" method="post">
+                    <form id="entry-input-form" action="/manager/news/edit"
+                          th:action="@{/manager/news/edit}" th:object="${form}" method="post">
                         <div class="form-group" style="padding: 10px;">
                             <label>お知らせ表題</label>
-                            <p type="text" th:text="${form.subject}"></p>
+                            <p type="text" th:text="*{subject}"></p>
                             <label>権限</label>
-                            <p type="text" th:text="${form.roleNm}"></p>
+                            <p type="text" th:text="*{roleNm}"></p>
                             <label>お知らせURL</label>
-                            <p type="text" th:text="${form.url}"></p>
+                            <p type="text" th:text="*{url}"></p>
                         </div>
                         <div class="form-group" style="padding: 10px;">
-                            <button th:type="submit" type="submit" class="btn-primary" th:name="register">登録</button>
-                            <button th:type="submit" type="submit" class="btn-primary" th:name="back">戻る</button>
+                            <button type="submit" class="btn-primary" name="update">更新</button>
+                            <button type="submit" class="btn-primary" name="back">戻る</button>
                         </div>
                         <input class="form-control" id="id" type="hidden" th:field="*{id}" />
                         <input class="form-control" id="roleId" type="hidden" th:field="*{roleId}" />

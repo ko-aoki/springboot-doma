@@ -48,7 +48,7 @@
                                     <button th:type="button" th:onclick="'pageJump(1);'" class="btn-primary">検索</button>
                                 </div>
                                 <div class="col col-sm-2">
-                                    <a th:href="@{'/manager/news/register/input'}">新規作成</a>
+                                    <a th:href="@{'/manager/news/register?input'}">新規作成</a>
                                 </div>
                             </div>
                             <nav th:if="${newsList}">
@@ -103,7 +103,7 @@
                                     <td rowspan="2" th:text="${news.roleNm}"></td>
                                     <td th:text="${news.subject}"></td>
                                     <td rowspan="2">
-                                        <a th:href="@{'/manager/news/edit/input/' + ${news.id}}">修正</a>
+                                        <a th:href="@{'/manager/news/edit?input=&amp;id=' + ${news.id}}">修正</a>
                                     </td>
                                 </tr>
                                 <tr th:classappend="${newsStat.odd} ? 'bg-info'">

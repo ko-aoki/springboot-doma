@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -58,7 +57,7 @@
         <div class="col col-sm-3">
             <ul id="nav-tab" class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#dashboard"><span class="glyphicon glyphicon-home"></span> HOME</a></li>
-                <li><a th:href="@{/entries}" href="#entries"><span class="glyphicon glyphicon-star"></span> 重要なお知らせ</a></li>
+                <li><a th:href="@{/news}" href="#news"><span class="glyphicon glyphicon-star"></span> 重要なお知らせ</a></li>
                 <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/manager/news/list}" href="#learning"><span class="glyphicon glyphicon-pencil"></span> 重要なお知らせ管理画面</a>
                 </li>
                 <li><a th:href="@{/learning}" href="#learning"><span class="glyphicon glyphicon-pencil"></span> Learning</a>
@@ -76,7 +75,7 @@
                             </div>
                             <div class="col col-sm-3">
                                 <ul id="nav-links"  class="list-group">
-                                    <li class="list-group-item"><a href="#"> リンク１ プレビューする?</a></li>
+                                    <li class="list-group-item"><a href="#"> リンク１</a></li>
                                     <li class="list-group-item"><a href="#"> リンク２</a></li>
                                 </ul>
                             </div>

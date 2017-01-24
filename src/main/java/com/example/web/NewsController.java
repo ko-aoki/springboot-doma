@@ -23,7 +23,7 @@ public class NewsController {
      *
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.GET)
     public String init(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 
         model.addAttribute("loginInfo", userDetails.getUserInfo());

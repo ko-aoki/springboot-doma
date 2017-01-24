@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = {"spring.datasource.url:jdbc:h2:~/dev/Java/ide/ws/springboot-doma/work/db/db;DB_CLOSE_ON_EXIT=FALSE"}
+        properties = {"spring.datasource.url:jdbc:h2:file:./work/db/db;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE"}
 )
 public class NewsServiceImplTest {
 

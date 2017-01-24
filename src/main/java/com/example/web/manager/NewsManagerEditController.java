@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +21,7 @@ import java.util.Map;
  * お知らせ更新画面のコントローラクラス.
  */
 @Controller
-@RequestMapping("manager/news/edit/")
+@RequestMapping("manager/news/edit")
 public class NewsManagerEditController {
 
     /** ロガー */
@@ -30,38 +31,44 @@ public class NewsManagerEditController {
     @Autowired
     NewsService service;
 
-    @ModelAttribute
-    public NewsForm setupForm() {
-        return new NewsForm();
-    }
+    /** 権限のコンボボックス用マップ */
+    private Map<String, String> roleIdMap;
 
     /**
      * 権限のコンボボックスを初期化します.
      * @return
      */
-    private Map<String, String> setupRoleIdList(Model model) {
+    @ModelAttribute(value="roleIdMap")
+    public Map<String, String> setupRoleIdMap() {
 
-        Map<String, String> roleIdMap = service.retrieveRoleIdMap();
-        model.addAttribute("roleIdMap", roleIdMap);
-        return roleIdMap;
+        if (this.roleIdMap == null) {
+            this.roleIdMap = service.retrieveRoleIdMap();
+        }
+        return this.roleIdMap;
     }
 
     /**
      * 「重要なお知らせ」更新画面を表示します.
+     * @param form : お知らせForm
+     * @param id : お知らせ情報ID
+     * @param back : 「戻る」パラメータ
      * @param model : モデル
      * @return
      */
-    @GetMapping(path = "input/{id}")
-    public String input(@PathVariable Long id,
+    @RequestMapping(params = "input")
+    public String input(NewsForm form,
+                        @RequestParam Long id,
+                        @RequestParam(required = false) String back,
                         Model model) {
 
-        // お知らせ情報を選択する
-        NewsDto news = service.findNews(id);
+        if (back == null) {
+            // お知らせ情報を選択する
+            NewsDto news = service.findNews(id);
 
-        NewsForm form = new NewsForm();
-        BeanUtils.copyProperties(news, form);
-        model.addAttribute("newsForm", form);
-        this.setupRoleIdList(model);
+            form = new NewsForm();
+            BeanUtils.copyProperties(news, form);
+        }
+        model.addAttribute("form", form);
         return "/manager/news/edit/newsEditInput";
     }
 
@@ -70,38 +77,22 @@ public class NewsManagerEditController {
      * @param form : お知らせForm
      * @param result : バリデーション結果
      * @param model : モデル
-     * @param redirectAttributes : リダイレクト属性
      * @return
      */
-    @PostMapping(path = "confirm")
+    @PostMapping(params = "confirm")
     public String confirm(@Validated NewsForm form,
                           BindingResult result,
-                          Model model,
-                          RedirectAttributes redirectAttributes) {
+                          Model model) {
 
         // 権限名を設定
-        Map<String, String> roleIdMap = service.retrieveRoleIdMap();
-        form.setRoleNm(roleIdMap.get(form.getRoleId()));
-        // フラッシュスコープに登録
-        redirectAttributes.addFlashAttribute(form);
+        form.setRoleNm(this.roleIdMap.get(form.getRoleId()));
+        model.addAttribute("form", form);
+
         // エラーチェック
         if (result.hasErrors()) {
             model.addAttribute("errorList", result.getFieldErrors());
             return "/manager/news/edit/newsEditInput";
         }
-        return "redirect:/manager/news/edit/confirm?complete";
-    }
-
-    /**
-     * 「重要なお知らせ」更新確認画面を表示します.
-     * @param form : お知らせForm
-     * @param model : モデル
-     * @return
-     */
-    @GetMapping(path = "confirm", params = "complete")
-    public String confirmComplete(NewsForm form, Model model) {
-
-        model.addAttribute("form", form);
         return "/manager/news/edit/newsEditConfirm";
     }
 
@@ -110,18 +101,16 @@ public class NewsManagerEditController {
      * @param form : お知らせForm
      * @param result : バリデーション結果
      * @param model : モデル
-     * @param redirectAttributes : リダイレクト属性
      * @return
      */
-    @PostMapping(path = "complete", params = "back")
+    @PostMapping(params = "back")
     public String backToInput(@Validated NewsForm form,
                           BindingResult result,
-                          Model model,
-                          RedirectAttributes redirectAttributes) {
+                          Model model) {
 
-        // フラッシュスコープに登録
-        redirectAttributes.addFlashAttribute(form);
-        return "redirect:/manager/news/edit/input";
+        model.addAttribute("form", form);
+
+        return "/manager/news/edit/newsEditInput";
     }
 
     /**
@@ -131,8 +120,8 @@ public class NewsManagerEditController {
      * @param model : モデル
      * @return
      */
-    @PostMapping(path = "complete")
-    public String complete(@Validated NewsForm form,
+    @PostMapping(params = "update")
+    public String update(@Validated NewsForm form,
                           BindingResult result,
                           Model model,
                           RedirectAttributes redirectAttributes) {
@@ -152,11 +141,12 @@ public class NewsManagerEditController {
             service.modifyNews(dto);
         } catch (OptimisticLockingFailureException e) {
             // 楽観排他処理
+            model.addAttribute("form", form);
             // TODO メッセージ
-            return "redirect:/manager/news/edit/comfirm?complete";
+            return "forward:/manager/news/edit?confirm";
         }
 
-        return "redirect:/manager/news/edit/complete?complete";
+        return "redirect:/manager/news/edit?complete";
     }
 
     /**
@@ -164,8 +154,8 @@ public class NewsManagerEditController {
      * @param model : モデル
      * @return
      */
-    @GetMapping(path = "complete", params = "complete")
-    public String completeComplete(NewsForm form, Model model) {
+    @GetMapping(params = "complete")
+    public String complete(NewsForm form, Model model) {
 
         model.addAttribute("form", form);
         return "/manager/news/edit/newsEditComplete";

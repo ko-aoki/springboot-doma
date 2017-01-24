@@ -17,8 +17,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 /**
  * Spring Security設定.
  */
-@Configuration
-@EnableWebSecurity
+@EnableWebSecurity  // Spring Securityが提供するConfigurationクラスのインポート
+// WebSecurityConfigurerAdapterでデフォルトのBean定義を適用
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -29,36 +29,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/manager/**").hasRole("ADMIN")
                 // 認証していないリクエストは不許可
                 .anyRequest().authenticated();
+        // フォーム認証
         http.formLogin()
+                // 認証パス
                 .loginProcessingUrl("/login")
+                // ログインフォーム表示用のパス設定
                 .loginPage("/loginForm")
+                // 認証失敗時のパス
                 .failureUrl("/loginForm?error")
+                // 認証成功時のパス
                 .defaultSuccessUrl("/", true)
+                // ユーザ名のリクエストパラメータ
                 .usernameParameter("id")
+                // パスワードのリクエストパラメータ
                 .passwordParameter("password");
         http.logout()
+                // ログアウトURL
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
+                // ログアウト後の遷移先
                 .logoutSuccessUrl("/loginForm");
         http.headers()
                 .cacheControl();
     }
 
-    @Configuration
-    static class AuthenticationConfiguration extends GlobalAuthenticationConfigurerAdapter {
-        @SuppressWarnings("SpringJavaAutowiringInspection")
-        @Autowired
-        LoginUserDetailsService userDetailsService;
-
-        @Bean
-        PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
-        }
-
-        @Override
-        public void init(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(userDetailsService)
-                    .passwordEncoder(passwordEncoder());
-        }
+    /**
+     * パスワードの暗号化方式
+     */
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
-
 }
