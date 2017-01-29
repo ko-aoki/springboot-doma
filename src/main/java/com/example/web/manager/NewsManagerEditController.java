@@ -22,6 +22,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("manager/news/edit")
+@SessionAttributes({"roleIdMap"})
 public class NewsManagerEditController {
 
     /** ロガー */
@@ -31,20 +32,22 @@ public class NewsManagerEditController {
     @Autowired
     NewsService service;
 
-    /** 権限のコンボボックス用マップ */
-    private Map<String, String> roleIdMap;
-
     /**
      * 権限のコンボボックスを初期化します.
      * @return
      */
-    @ModelAttribute(value="roleIdMap")
+    @ModelAttribute("roleIdMap")
     public Map<String, String> setupRoleIdMap() {
+        return service.retrieveRoleIdMap();
+    }
 
-        if (this.roleIdMap == null) {
-            this.roleIdMap = service.retrieveRoleIdMap();
-        }
-        return this.roleIdMap;
+    /**
+     * お知らせフォームを初期化します.
+     * @return
+     */
+    @ModelAttribute
+    public NewsForm setupForm() {
+        return new NewsForm();
     }
 
     /**
@@ -68,7 +71,7 @@ public class NewsManagerEditController {
             form = new NewsForm();
             BeanUtils.copyProperties(news, form);
         }
-        model.addAttribute("form", form);
+        model.addAttribute("newsForm", form);
         return "/manager/news/edit/newsEditInput";
     }
 
@@ -76,17 +79,19 @@ public class NewsManagerEditController {
      * 「重要なお知らせ」更新確認画面を表示します.
      * @param form : お知らせForm
      * @param result : バリデーション結果
+     * @param roleIdMap : 権限のマップ
      * @param model : モデル
      * @return
      */
     @PostMapping(params = "confirm")
     public String confirm(@Validated NewsForm form,
                           BindingResult result,
+                          @ModelAttribute("roleIdMap") Map<String, String> roleIdMap,
                           Model model) {
 
         // 権限名を設定
-        form.setRoleNm(this.roleIdMap.get(form.getRoleId()));
-        model.addAttribute("form", form);
+        form.setRoleNm(roleIdMap.get(form.getRoleId()));
+        model.addAttribute("newsForm", form);
 
         // エラーチェック
         if (result.hasErrors()) {
@@ -107,8 +112,6 @@ public class NewsManagerEditController {
     public String backToInput(@Validated NewsForm form,
                           BindingResult result,
                           Model model) {
-
-        model.addAttribute("form", form);
 
         return "/manager/news/edit/newsEditInput";
     }
@@ -140,8 +143,6 @@ public class NewsManagerEditController {
         try {
             service.modifyNews(dto);
         } catch (OptimisticLockingFailureException e) {
-            // 楽観排他処理
-            model.addAttribute("form", form);
             // TODO メッセージ
             return "forward:/manager/news/edit?confirm";
         }
@@ -157,7 +158,6 @@ public class NewsManagerEditController {
     @GetMapping(params = "complete")
     public String complete(NewsForm form, Model model) {
 
-        model.addAttribute("form", form);
         return "/manager/news/edit/newsEditComplete";
     }
 

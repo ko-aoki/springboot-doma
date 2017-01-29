@@ -3,6 +3,7 @@ package com.example.web;
 import com.example.security.LoginUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,23 +11,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * お知らせ画面のコントローラ.
+ * ラーニング画面のコントローラ.
  */
 @Controller
-@RequestMapping("news")
-public class NewsController {
+@RequestMapping("/learning")
+public class LearningController {
 
     /** ロガー */
-    private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LearningController.class);
 
     /**
-     *
-     * @return
+     * ラーニング画面.
+     * @return ビュー名
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String init(Model model) {
+    public String top(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 
-        return "news/news";
+        return "learning/learning";
     }
 
 }

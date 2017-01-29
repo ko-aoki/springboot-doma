@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="tabLayout">
 <head>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>基幹システム</title>
     <link rel="stylesheet" type="text/css" href="../../static/css/lib/bootstrap.min.css" th:href="@{/css/lib/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" href="../../static/css/lib/bootstrap-theme.min.css" th:href="@{/css/lib/bootstrap-theme.min.css}"/>
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
     <style>
         body {
             padding-top: 70px;
@@ -53,12 +55,12 @@
 </div>
 <!-- メインコンテンツ -->
 <div class="container">
-    <div class="row">
+    <div layout:fragment="content" class="row">
         <div class="col col-sm-3">
             <ul id="nav-tab" class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#dashboard"><span class="glyphicon glyphicon-home"></span> HOME</a></li>
                 <li><a th:href="@{/news}" href="#news"><span class="glyphicon glyphicon-star"></span> 重要なお知らせ</a></li>
-                <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/manager/news/list}" href="#learning"><span class="glyphicon glyphicon-pencil"></span> 重要なお知らせ管理画面</a>
+                <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/manager/news/list}" href="#"><span class="glyphicon glyphicon-pencil"></span> 重要なお知らせ管理画面</a>
                 </li>
                 <li><a th:href="@{/learning}" href="#learning"><span class="glyphicon glyphicon-pencil"></span> Learning</a>
                 </li>
@@ -83,81 +85,11 @@
                         </div>
                     </div>
                 </div>
-                <div id="entries" class="tab-pane">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h3 class="panel-title">重要なお知らせ</h3></div>
-                        <div class="panel-body">
-                            <h4>xヶ月分の更新履歴を表示しています。</h4>
-                            <div>
-                                <ul class="list-group">
-                                    <li class="list-group-item">更新履歴1</li>
-                                    <li class="list-group-item">更新履歴2</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="learning" class="tab-pane">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h3 class="panel-title">Learning</h3></div>
-                        <div class="panel-body">
-                            <div class="media" sec:authorize="hasRole('ROLE_ADMIN')">
-                                <div class="media-left">
-                                    <video width="320" height="240" th:attr="src=@{/sample/video/nc144421}" type="video/mp4" controls="controls" preload="none" onclick="this.play();">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                                <div class="media-body">
-                                    <p>サンプル動画1</p>
-                                </div>
-                            </div>
-                            <div class="media" sec:authorize="hasRole('ROLE_ADMIN')">
-                                <div class="media-left">
-                                    <video width="320" height="240" th:attr="src=@{/movie/sample/nc144421.mp4}" controls="controls" type="video/mp4" preload="none" onclick="this.play();">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                                <div class="media-body">
-                                    <p>サンプル動画1</p>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <img class="icon" src="../../static/movie/thumbnail/nc144555.jpg"
-                                         th:attr="src=@{/movie/thumbnail/nc144555.jpg}"/>
-                                </div>
-                                <div class="media-body">
-                                    <p>サンプル動画2</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="users" class="tab-pane" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h3 class="panel-title">ユーザー管理画面</h3></div>
-                        <div class="panel-body">
-                            <!-- 略 -->
-                        </div>
-                    </div>
-                </div>
-                <div id="reports" class="tab-pane">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h3 class="panel-title">レポート</h3></div>
-                        <div class="panel-body">
-                            <!-- 略 -->
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
-<script>
-    // ログアウト
-    $('#logout-link').on('click', function (e) {
-        $('#logout-form').submit();
-    });
-</script>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="../../static/js/lib/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>

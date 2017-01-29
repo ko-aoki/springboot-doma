@@ -19,7 +19,7 @@
                 <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」更新画面</h3></div>
                 <br/>
                 <form id="news-input-form" action="/manager/news/edit" th:action="@{/manager/news/edit}"
-                      th:object="${form}" method="post">
+                      th:object="${newsForm}" method="post">
                     <ul>
                         <li th:each="error : ${#fields.detailedErrors()}">
                             <span th:text="${error.message}">Error message</span>

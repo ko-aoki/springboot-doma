@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("manager/news/list")
+@SessionAttributes({"roleIdMap"})
 public class NewsManagerListController {
 
     /** ロガー */
@@ -37,18 +39,23 @@ public class NewsManagerListController {
         return service.retrieveRoleIdMap();
     }
 
+    /**
+     * お知らせリスト条件フォームを初期化します.
+     * @return
+     */
     @ModelAttribute
-    public NewsForm setupForm() {
-        return new NewsForm();
+    public NewsListCondForm setupForm() {
+        return new NewsListCondForm();
     }
 
     /**
      * 「重要なお知らせ」リスト画面を表示します.
+     * @param form : お知らせForm
      * @param model : モデル
      * @return
      */
     @GetMapping
-    public String display(NewsForm form,
+    public String display(NewsListCondForm form,
                         Model model) {
 
         int page = 0;

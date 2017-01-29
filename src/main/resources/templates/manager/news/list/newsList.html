@@ -28,8 +28,8 @@
                 <div class="panel-heading"><h3 class="panel-title">「重要なお知らせ」管理画面</h3></div>
                 <div class="panel-body">
                     <div id="div-cond">
-                        <form id="news-input-form" action="/manager/news/list" th:action="@{/manager/news/list}"
-                              th:object="${newsForm}" method="get">
+                        <form id="news-input-form" th:action="@{/manager/news/list}"
+                              th:object="${newsListCondForm}" method="get">
                             <input id="page" th:field="*{page}" type="hidden" />
                             <label for="subject">お知らせ表題</label>
                             <input class="form-control" id="subject" type="text" th:field="*{subject}"/>
@@ -45,7 +45,7 @@
                             <br/>
                             <div class="row">
                                 <div class="form-group col col-sm-10">
-                                    <button th:type="button" th:onclick="'pageJump(1);'" class="btn-primary">検索</button>
+                                    <button type="button" th:onclick="'pageJump(1);'" class="btn-primary">検索</button>
                                 </div>
                                 <div class="col col-sm-2">
                                     <a th:href="@{'/manager/news/register?input'}">新規作成</a>
@@ -65,15 +65,15 @@
                                         </a>
                                     </li>
                                     <li th:each="pageNum : ${#numbers.sequence(1, newsList.totalPages)}"
-                                        th:classappend="${newsForm.page == pageNum} ? 'active'">
+                                        th:classappend="${page == pageNum} ? 'active'">
                                         <a th:onclick="'pageJump(' + ${pageNum} + ');'" th:text="${pageNum}"></a>
                                     </li>
-                                    <li th:if="${newsForm.page ge newsList.totalPages}" class="disabled">
+                                    <li th:if="${page ge newsList.totalPages}" class="disabled">
                                         <a aria-label="次のページへ">
                                             <span aria-hidden="true">»</span>
                                         </a>
                                     </li>
-                                    <li th:unless="${newsForm.page ge newsList.totalPages}">
+                                    <li th:unless="${page ge newsList.totalPages}">
                                         <a th:onclick="'pageJump(' + ${newsList.totalPages} + ');'"
                                            aria-label="次のページへ">
                                             <span aria-hidden="true">»</span>

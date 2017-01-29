@@ -20,6 +20,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("manager/news/register")
+@SessionAttributes({"roleIdMap"})
 public class NewsManagerRegisterController {
 
     /** ロガー */
@@ -29,20 +30,22 @@ public class NewsManagerRegisterController {
     @Autowired
     NewsService service;
 
-    /** 権限のコンボボックス用マップ */
-    private Map<String, String> roleIdMap;
-
     /**
      * 権限のコンボボックスを初期化します.
      * @return
      */
-    @ModelAttribute(value="roleIdMap")
+    @ModelAttribute("roleIdMap")
     public Map<String, String> setupRoleIdMap() {
+        return service.retrieveRoleIdMap();
+    }
 
-        if (this.roleIdMap == null) {
-            this.roleIdMap = service.retrieveRoleIdMap();
-        }
-        return this.roleIdMap;
+    /**
+     * お知らせフォームを初期化します.
+     * @return
+     */
+    @ModelAttribute
+    public NewsForm setupForm() {
+        return new NewsForm();
     }
 
     /**
@@ -60,7 +63,6 @@ public class NewsManagerRegisterController {
         if (back == null) {
             form = new NewsForm();
         }
-        model.addAttribute("form", form);
         return "/manager/news/register/newsRegisterInput";
     }
 
@@ -68,18 +70,19 @@ public class NewsManagerRegisterController {
      * 「重要なお知らせ」確認画面を表示します.
      * @param form : お知らせForm
      * @param result : バリデーション結果
+     * @param roleIdMap : 権限のマップ
      * @param model : モデル
      * @return
      */
     @PostMapping(params = "confirm")
     public String confirm(@Validated NewsForm form,
                           BindingResult result,
+                          @ModelAttribute("roleIdMap") Map<String, String> roleIdMap,
                           Model model) {
 
         // 権限名を設定
-        form.setRoleNm(this.roleIdMap.get(form.getRoleId()));
         form.setRoleNm(roleIdMap.get(form.getRoleId()));
-        model.addAttribute("form", form);
+        model.addAttribute("newsForm", form);
 
         // エラーチェック
         if (result.hasErrors()) {
@@ -100,8 +103,6 @@ public class NewsManagerRegisterController {
     public String backToInput(@Validated NewsForm form,
                           BindingResult result,
                           Model model) {
-
-        model.addAttribute("form", form);
 
         return "/manager/news/register/newsRegisterInput";
     }
@@ -144,7 +145,6 @@ public class NewsManagerRegisterController {
     @GetMapping(params = "complete")
     public String complete(NewsForm form, Model model) {
 
-        model.addAttribute("form", form);
         return "/manager/news/register/newsRegisterComplete";
     }
 

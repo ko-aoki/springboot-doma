@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="tabLayout">
 <head>
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Cache-Control" content="no-cache" />
@@ -30,16 +34,16 @@
             <form id="logout-form" action="/logout" th:action="@{/logout}">
             </form>
             <ul class="nav navbar-nav pull-right">
-                <li><a href="index.html">サイト確認</a></li>
+                <li><a href="/top/top.html" th:href="@{/}">トップへ</a></li>
                 <li><a href="#config">設定</a></li>
                 <li class="nav-divider"></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-                        <span class="glyphicon glyphicon-user" th:text="${userInfo.employeeName} + 'さん'"></span>
+                        <span class="glyphicon glyphicon-user" sec:authentication="principal.userInfo.employeeName"></span> さん
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#users/update"><span class="glyphicon glyphicon-edit"></span> ユーザー情報変更</a>
+                        <li><a href="#"><span class="glyphicon glyphicon-edit"></span> ユーザー情報変更</a>
                         </li>
                         <li><a  id="logout-link" href="#logout"><span class="glyphicon glyphicon-off"></span> ログアウト</a></li>
                     </ul>
@@ -51,52 +55,23 @@
 </div>
 <!-- メインコンテンツ -->
 <div class="container">
-    <div class="row">
+    <div layout:fragment="content" class="row">
         <div class="col col-sm-3">
             <ul id="nav-tab" class="nav nav-pills nav-stacked">
-                <li><a th:href="@{/dashboard}" href="#dashboard"><span class="glyphicon glyphicon-home"></span> HOME</a></li>
-                <li class="active"><a href="#entries"><span class="glyphicon glyphicon-star"></span> 重要なお知らせ</a></li>
-                <li><a th:href="@{/learning}" href="#learning"><span class="glyphicon glyphicon-pencil"></span> Learning</a></li>
+                <li><a href="/top/top.html" th:href="@{/}"><span class="glyphicon glyphicon-home"></span> HOME</a></li>
+                <li><a th:href="@{/news}" href="#news"><span class="glyphicon glyphicon-star"></span> 重要なお知らせ</a></li>
+                <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/manager/news/list}" href="#"><span class="glyphicon glyphicon-pencil"></span> 重要なお知らせ管理画面</a>
+                </li>
+                <li class="active"><a href="#"><span class="glyphicon glyphicon-pencil"></span> Learning</a></li>
             </ul>
         </div>
         <div class="col col-sm-9">
             <div class="tab-content">
-                <div id="dashboard" class="tab-pane active">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h3 class="panel-title">ダッシュボード</h3></div>
-                        <div class="panel-body">
-                            <div class="col col-sm-9">
-                                更新情報など
-                            </div>
-                            <div class="col col-sm-3">
-                                <ul id="nav-links"  class="list-group">
-                                    <li class="list-group-item"><a href="#"> リンク１ プレビューする?</a></li>
-                                    <li class="list-group-item"><a href="#"> リンク２</a></li>
-                                </ul>
-                            </div>
-                            <!-- 略 -->
-                        </div>
-                    </div>
-                </div>
-                <div id="entries" class="tab-pane">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h3 class="panel-title">重要なお知らせ</h3></div>
-                        <div class="panel-body">
-                            <h4>xヶ月分の更新履歴を表示しています。</h4>
-                            <div>
-                                <ul class="list-group">
-                                    <li class="list-group-item">更新履歴1</li>
-                                    <li class="list-group-item">更新履歴2</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="learning" class="tab-pane">
+                <div id="learning" class="tab-pane  active">
                     <div class="panel panel-default">
                         <div class="panel-heading"><h3 class="panel-title">Learning</h3></div>
                         <div class="panel-body">
-                            <div class="media"  th:if="${userInfo.roleId == '01'}">
+                            <div class="media"  sec:authorize="hasRole('ADMIN')">
                                 <div class="media-left">
                                     <video width="320" height="240" th:attr="src=@{/sample/video/nc144421}" type="video/mp4" controls="controls" preload="none" onclick="this.play();">
                                         Your browser does not support the video tag.
@@ -106,7 +81,7 @@
                                     <p>サンプル動画1</p>
                                 </div>
                             </div>
-                            <div class="media"  th:if="${userInfo.roleId == '01'}">
+                            <div class="media"  sec:authorize="hasRole('ADMIN')">
                                 <div class="media-left">
                                     <video width="320" height="240" th:attr="src=@{/movie/sample/nc144421.mp4}" controls="controls" type="video/mp4" preload="none" onclick="this.play();">
                                         Your browser does not support the video tag.
@@ -128,34 +103,11 @@
                         </div>
                     </div>
                 </div>
-                <div id="users" class="tab-pane">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h3 class="panel-title">ユーザー管理画面</h3></div>
-                        <div class="panel-body">
-                            <!-- 略 -->
-                        </div>
-                    </div>
-                </div>
-                <div id="reports" class="tab-pane">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h3 class="panel-title">レポート</h3></div>
-                        <div class="panel-body">
-                            <!-- 略 -->
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="../../static/js/lib/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
-<script>
-    // ログアウト
-    $('#logout-link').on('click', function (e) {
-        $('#logout-form').submit();
-    });
-
-</script>
 </body>
 </html>

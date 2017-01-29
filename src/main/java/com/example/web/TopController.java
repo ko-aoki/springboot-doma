@@ -28,7 +28,7 @@ public class TopController {
      * @return ビュー名
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String top(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
+    public String top(Model model) {
 
         return "top/top";
     }
