@@ -1,0 +1,1 @@
+dot -Tpng -o springboot-doma.png springboot-doma.dot

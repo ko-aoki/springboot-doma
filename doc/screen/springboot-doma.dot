@@ -1,0 +1,40 @@
+digraph G {
+    node [shape = record, height = .1, fontsize=10];
+    edge [fontsize=8];
+
+    /* 画面情報の定義 */
+    PageTop      [label = "{<id>P0000 |<title>トップページ |<folder>top|<file>top.html}"];
+    PageNews     [label = "{<id>P0001 |<title>お知らせ画面 |<folder>news |<file>news.html}"];
+    PageLearning [label = "{<id>P0002 |<title>ラーニング画面|<folder>learning |<file>learning.html}"];
+
+    PageManagerNewsList             [label = "{<id>M0101 |<title>お知らせマスタ管理\n一覧 |<folder>manager/news/list|<file>newsList.html}"];
+    PageManagerNewsEditInput        [label = "{<id>M0111 |<title>お知らせマスタ管理\n編集 入力 |<folder>manager/news/edit|<file>newsEditInput.html}"];
+    PageManagerNewsEditConfirm      [label = "{<id>M0112 |<title>お知らせマスタ管理\n編集 確認 |<folder>manager/news/edit|<file>newsEditConfirm.html}"];
+    PageManagerNewsEditComplete     [label = "{<id>M0113 |<title>お知らせマスタ管理\n編集 完了 |<folder>manager/news/edit|<file>newsEditComplete.html}"];
+    PageManagerNewsRegisterInput    [label = "{<id>M0121 |<title>お知らせマスタ管理\n登録 入力 |<folder>manager/news/register|<file>newsRegisterInput.html}"];
+    PageManagerNewsRegisterConfirm  [label = "{<id>M0122 |<title>お知らせマスタ管理\n登録 確認 |<folder>manager/news/register|<file>newsRegisterConfirm.html}"];
+    PageManagerNewsRegisterComplete [label = "{<id>M0123 |<title>お知らせマスタ管理\n登録 完了 |<folder>manager/news/register|<file>newsRegisterComplete.html}"];
+
+
+    /* 画面遷移定義 */
+    PageTop                         -> PageNews                ;
+    PageNews                        -> PageTop                 ;
+    PageTop                         -> PageLearning            ;
+    PageLearning                    -> PageTop                 ;
+    PageTop                         -> PageManagerNewsList     ;
+    PageManagerNewsList             -> PageTop                 ;
+
+    PageManagerNewsList             -> PageManagerNewsList     ;
+    PageManagerNewsList             -> PageManagerNewsEditInput     ;
+    PageManagerNewsEditInput        -> PageManagerNewsEditConfirm   [label="POST"];
+    PageManagerNewsEditConfirm      -> PageManagerNewsEditInput     ;
+    PageManagerNewsEditConfirm      -> PageManagerNewsEditComplete  [label="PRG"];
+    PageManagerNewsEditComplete     -> PageManagerNewsList          ;
+
+    PageManagerNewsList             -> PageManagerNewsRegisterInput     ;
+    PageManagerNewsRegisterInput    -> PageManagerNewsRegisterConfirm   [label="POST"];
+    PageManagerNewsRegisterConfirm  -> PageManagerNewsRegisterInput     ;
+    PageManagerNewsRegisterConfirm  -> PageManagerNewsRegisterComplete  [label="PRG"];
+    PageManagerNewsRegisterComplete -> PageManagerNewsList          ;
+
+}
