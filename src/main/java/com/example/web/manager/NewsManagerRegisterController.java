@@ -40,29 +40,14 @@ public class NewsManagerRegisterController {
     }
 
     /**
-     * お知らせフォームを初期化します.
-     * @return
-     */
-    @ModelAttribute
-    public NewsForm setupForm() {
-        return new NewsForm();
-    }
-
-    /**
      * 「重要なお知らせ」入力画面を表示します.
      * @param form : お知らせForm
-     * @param back : 「戻る」パラメータ
      * @param model : モデル
      * @return
      */
     @RequestMapping(params = "input")
     public String input(NewsForm form,
-                        @RequestParam(required = false) String back,
                         Model model) {
-
-        if (back == null) {
-            form = new NewsForm();
-        }
         return "/manager/news/register/newsRegisterInput";
     }
 

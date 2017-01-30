@@ -40,15 +40,6 @@ public class NewsManagerListController {
     }
 
     /**
-     * お知らせリスト条件フォームを初期化します.
-     * @return
-     */
-    @ModelAttribute
-    public NewsListCondForm setupForm() {
-        return new NewsListCondForm();
-    }
-
-    /**
      * 「重要なお知らせ」リスト画面を表示します.
      * @param form : お知らせForm
      * @param model : モデル

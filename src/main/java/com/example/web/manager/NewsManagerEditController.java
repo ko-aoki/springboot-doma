@@ -42,35 +42,22 @@ public class NewsManagerEditController {
     }
 
     /**
-     * お知らせフォームを初期化します.
-     * @return
-     */
-    @ModelAttribute
-    public NewsForm setupForm() {
-        return new NewsForm();
-    }
-
-    /**
      * 「重要なお知らせ」更新画面を表示します.
      * @param form : お知らせForm
      * @param id : お知らせ情報ID
-     * @param back : 「戻る」パラメータ
      * @param model : モデル
      * @return
      */
     @RequestMapping(params = "input")
     public String input(NewsForm form,
                         @RequestParam Long id,
-                        @RequestParam(required = false) String back,
                         Model model) {
 
-        if (back == null) {
-            // お知らせ情報を選択する
-            NewsDto news = service.findNews(id);
+        // お知らせ情報を選択する
+        NewsDto news = service.findNews(id);
 
-            form = new NewsForm();
-            BeanUtils.copyProperties(news, form);
-        }
+        form = new NewsForm();
+        BeanUtils.copyProperties(news, form);
         model.addAttribute("newsForm", form);
         return "/manager/news/edit/newsEditInput";
     }
