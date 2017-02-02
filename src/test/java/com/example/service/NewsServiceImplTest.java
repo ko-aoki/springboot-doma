@@ -15,9 +15,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by ko-aoki on 2016/11/06.
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {"spring.datasource.url:jdbc:h2:file:./work/db/db;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE"}
@@ -25,9 +22,9 @@ import static org.junit.Assert.*;
 public class NewsServiceImplTest {
 
     @Autowired
-    NewsService service;
+    private NewsService service;
     @Autowired
-    MstNewsDao dao;
+    private MstNewsDao dao;
 
     @Test
     public void addNews() throws Exception {

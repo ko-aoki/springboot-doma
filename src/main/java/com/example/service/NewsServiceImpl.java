@@ -24,10 +24,10 @@ import java.util.Map;
 public class NewsServiceImpl implements NewsService {
 
     @Autowired
-    MstNewsDao dao;
+    private MstNewsDao dao;
 
     @Autowired
-    MstRoleDao mstRoleDao;
+    private MstRoleDao mstRoleDao;
 
 
     @Override
@@ -35,7 +35,7 @@ public class NewsServiceImpl implements NewsService {
 
         List<MstRole> mstRoles = mstRoleDao.selectAll();
         Map<String, String> roleIdMap = new HashMap<>();
-        mstRoles.stream().forEach(mstRole -> roleIdMap.put(mstRole.getRoleId(), mstRole.getRoleName()));
+        mstRoles.forEach(mstRole -> roleIdMap.put(mstRole.getRoleId(), mstRole.getRoleName()));
 
         return roleIdMap;
     }
@@ -66,6 +66,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public Page<NewsDto> findNewsPage(String subject, String roleId, String url, int pageNo) {
+
         // ページあたり件数
         // TODO パラメータ化
         int sizePerPage = 5;
@@ -79,9 +80,7 @@ public class NewsServiceImpl implements NewsService {
         // ページ内最終インデックス
         int lastIdxInPage = sizePerPage > newsDtoList.size() ? newsDtoList.size() : sizePerPage;
         // ページ情報作成
-        PageImpl page = new PageImpl(
+        return new PageImpl<>(
                 newsDtoList.subList(0, lastIdxInPage), new PageRequest(pageNo, sizePerPage), count);
-
-        return page;
     }
 }

@@ -28,7 +28,7 @@ public class NewsManagerRegisterController {
 
     /** お知らせ機能のサービスクラス */
     @Autowired
-    NewsService service;
+    private NewsService service;
 
     /**
      * 権限のコンボボックスを初期化します.

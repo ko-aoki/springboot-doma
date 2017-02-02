@@ -28,7 +28,7 @@ public class NewsManagerListController {
 
     /** お知らせ機能のサービスクラス */
     @Autowired
-    NewsService service;
+    private NewsService service;
 
     /**
      * 権限のコンボボックスを初期化します.
@@ -49,7 +49,7 @@ public class NewsManagerListController {
     public String display(NewsListCondForm form,
                         Model model) {
 
-        int page = 0;
+        int page;
         if (form.getPage() == null) {
             page = 0;
             form.setPage(1);

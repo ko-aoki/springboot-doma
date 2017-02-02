@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 @Service
 public class LoginUserDetailsService implements UserDetailsService {
     @Autowired
-    MstEmployeeDao dao;
+    private MstEmployeeDao dao;
 
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
@@ -29,9 +29,6 @@ public class LoginUserDetailsService implements UserDetailsService {
         userInfo.setRoleId(user.getRoleId());
         userInfo.setPassword(user.getPassword());
 
-        if (userInfo == null) {
-            throw new UsernameNotFoundException("The requested user is not found.");
-        }
         return new LoginUserDetails(userInfo);
     }
 }

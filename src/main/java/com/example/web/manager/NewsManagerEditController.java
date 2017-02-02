@@ -30,7 +30,7 @@ public class NewsManagerEditController {
 
     /** お知らせ機能のサービスクラス */
     @Autowired
-    NewsService service;
+    private NewsService service;
 
     /**
      * 権限のコンボボックスを初期化します.
@@ -43,20 +43,18 @@ public class NewsManagerEditController {
 
     /**
      * 「重要なお知らせ」更新画面を表示します.
-     * @param form : お知らせForm
      * @param id : お知らせ情報ID
      * @param model : モデル
      * @return
      */
     @RequestMapping(params = "input")
-    public String input(NewsForm form,
-                        @RequestParam Long id,
+    public String input(@RequestParam Long id,
                         Model model) {
 
         // お知らせ情報を選択する
         NewsDto news = service.findNews(id);
 
-        form = new NewsForm();
+        NewsForm form = new NewsForm();
         BeanUtils.copyProperties(news, form);
         model.addAttribute("newsForm", form);
         return "/manager/news/edit/newsEditInput";

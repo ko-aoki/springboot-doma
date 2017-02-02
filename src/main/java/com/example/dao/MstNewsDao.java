@@ -1,9 +1,5 @@
 package com.example.dao;
 
-/**
- * Created by ko-aoki on 2016/09/01.
- */
-
 import com.example.dto.NewsDto;
 import com.example.entity.MstNews;
 import org.seasar.doma.*;
