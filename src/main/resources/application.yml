@@ -12,3 +12,7 @@ server:
   contextPath: /edu
 app:
   uploadPath: ./testdata/
+# ----------------------------------------
+# WEB PROPERTIES
+# ----------------------------------------
+server.session.timeout: 1200
