@@ -19,6 +19,9 @@ public interface MstRoleDao {
     @Select
     List<MstRole> selectAll();
 
+    @Select
+    List<MstRole> selectByRoleName(String roleName);
+
     @Insert
     @Transactional
     int insert(MstRole ent);

@@ -1,0 +1,21 @@
+<ul>
+    <li th:each="error : ${#fields.detailedErrors()}">
+        <span th:text="${error.message}">Error message</span>
+    </li>
+</ul>
+<table class="table table-bordered">
+     <thead class="bg-primary">
+     <tr>
+         <th>ID</th>
+         <th>権限名称</th>
+     </tr>
+     </thead>
+     <div th:remove="tag" th:each="role : ${roleList}">
+         <tr th:classappend="${roleStat.odd} ? 'bg-info'">
+             <td th:text="${role.roleId}"></td>
+             <td>
+                 <a th:onclick="@{'setRoleId(\'' + ${role.roleId} + '\')'}" th:text="${role.roleNm}"></a>
+             </td>
+         </tr>
+     </div>
+ </table>

@@ -80,7 +80,6 @@ public class NewsManagerEditController {
 
         // エラーチェック
         if (result.hasErrors()) {
-            model.addAttribute("errorList", result.getFieldErrors());
             return "/manager/news/edit/newsEditInput";
         }
         return "/manager/news/edit/newsEditConfirm";
@@ -118,7 +117,6 @@ public class NewsManagerEditController {
         redirectAttributes.addFlashAttribute(form);
         // 再度エラーチェック
         if (result.hasErrors()) {
-            model.addAttribute("errorList", result.getFieldErrors());
             throw new RuntimeException("不正な入力変更");
         }
 

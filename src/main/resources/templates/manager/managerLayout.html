@@ -8,11 +8,14 @@
     <meta http-equiv="Cache-Control" content="no-cache" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>基幹システム</title>
     <link rel="stylesheet" type="text/css" href="../../../static/css/lib/bootstrap.min.css" th:href="@{/css/lib/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" href="../../../static/css/lib/bootstrap-theme.min.css" th:href="@{/css/lib/bootstrap-theme.min.css}"/>
     <script src="../../static/js/lib/jquery-3.1.1.min.js" th:src="@{/js/lib/jquery-3.1.1.min.js}"></script>
-    <script src="../../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
+    <script src="../../static/js/lib/bootstrap.min.js" th:src="@{/js/lib/bootstrap.min.js}"></script>
+    <script src="../../static/js/common.js" th:src="@{/js/common.js}"></script>
     <style>
         body {
             padding-top: 70px;

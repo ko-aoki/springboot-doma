@@ -71,7 +71,6 @@ public class NewsManagerRegisterController {
 
         // エラーチェック
         if (result.hasErrors()) {
-            model.addAttribute("errorList", result.getFieldErrors());
             return "/manager/news/register/newsRegisterInput";
         }
         return "/manager/news/register/newsRegisterConfirm";
@@ -109,7 +108,6 @@ public class NewsManagerRegisterController {
         redirectAttributes.addFlashAttribute(form);
         // 再度エラーチェック
         if (result.hasErrors()) {
-            model.addAttribute("errorList", result.getFieldErrors());
             throw new RuntimeException("不正な入力変更");
         }
 

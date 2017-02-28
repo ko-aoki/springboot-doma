@@ -17,6 +17,38 @@
             $("#page").val(page);
             $("#news-input-form").submit();
         }
+
+        /**
+         * 権限のモーダルダイアログを表示します.
+         */
+        function showRoleModal() {
+            $("#role-modal").modal("show");
+        }
+
+        /**
+         * 権限を検索します.
+         */
+        function findRole() {
+            // 権限取得のAjax処理
+            var findRoleAjax = getHtmlAjax(
+                "/edu/modal/role",
+                {roleNm : $("#modal-cond-role-nm").val()});
+
+            // 成功時処理
+            findRoleAjax.done(
+              function(data){
+                  $('#role-modal-result').html(data);
+              }
+            );
+        }
+
+        /**
+         * モーダルで選択した権限を設定します.
+         */
+        function setRoleId(roleId) {
+            $('#role-id').val(roleId);
+            $("#role-modal").modal("hide");
+        }
     </script>
 </head>
 <body>
@@ -40,6 +72,30 @@
                                         th:selected="${item.key} == *{roleId}">pulldown
                                 </option>
                             </select>
+                            <button type="button" th:onclick="'showRoleModal();'" class="btn-primary">権限検索</button>
+                            <br/>
+                            <div class="modal" id="role-modal" style="display: none;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">権限選択</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input class="form-control" id="modal-cond-role-nm"
+                                                   type="text" th:field="*{roleNm}"/>
+                                            <button type="button" class="btn btn-primary" th:onclick="'findRole();'">検索</button>
+                                            <div id="role-modal-result">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <label for="url">お知らせURL</label>
                             <input class="form-control" id="url" type="text" th:field="*{url}"/>
                             <br/>
