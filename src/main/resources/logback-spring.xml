@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE logback>
+<configuration>
+    <include resource="org/springframebaseDir/boot/logging/logback/defaults.xml"/>
+    <!-- ベースディレクトリ -->
+    <property name="baseDir" value="./work"/>
+    <!-- ログ名称 -->
+    <property name="logName" value="springboot-doma"/>
+
+    <springProfile name="production">
+        <!-- ベースディレクトリ -->
+        <property name="baseDir" value="./work"/>
+    </springProfile>
+    <springProfile name="dev">
+        <!-- ベースディレクトリ -->
+        <property name="baseDir" value="./work"/>
+        <!-- ロガー -->
+        <logger name="com.example" level="DEBUG"/>
+    </springProfile>
+
+    <!-- アペンダー -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- ベースディレクトリ -->
+        <file>${baseDir}/log/${logName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${baseDir}/log/${logName}.%d{yyyy-MM-dd}.zip</fileNamePattern>
+            <!-- keep 30 days worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %level %logger{35} - %msg %class %method%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%date [%thread] %level %logger{35} - %msg %class %method%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- ロガーレベル -->
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
