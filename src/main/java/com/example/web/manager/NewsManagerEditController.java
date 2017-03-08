@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -50,7 +50,6 @@ public class NewsManagerEditController {
     @RequestMapping(params = "input")
     public String input(@RequestParam Long id,
                         Model model) {
-
         // お知らせ情報を選択する
         NewsDto news = service.findNews(id);
 
@@ -126,8 +125,8 @@ public class NewsManagerEditController {
         try {
             service.modifyNews(dto);
         } catch (OptimisticLockingFailureException e) {
-            // TODO メッセージ
-            return "forward:/manager/news/edit?confirm";
+            model.addAttribute("messageList", Arrays.asList("他のユーザが再度同一データを更新しました。入力してください。"));
+            return "forward:/manager/news/edit/newsEditInput";
         }
 
         return "redirect:/manager/news/edit?complete";

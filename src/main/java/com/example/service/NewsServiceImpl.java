@@ -5,6 +5,7 @@ import com.example.dao.MstRoleDao;
 import com.example.dto.NewsDto;
 import com.example.entity.MstNews;
 import com.example.entity.MstRole;
+import com.example.exception.BusinessException;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,25 @@ public class NewsServiceImpl implements NewsService {
         return roleIdMap;
     }
 
+    /**
+     * 追加・更新するお知らせ情報を検証します.
+     * @param dto お知らせ情報
+     */
+    @Override
+    public void validateNews(NewsDto dto) {
+
+        SelectOptions selectOptions = SelectOptions.get().offset(0).limit(100).count();
+        // 表題の一致をチェック
+        dao.selectNewsDtoByCond(dto.getSubject(), null, null , selectOptions);
+        if (selectOptions.getCount() > 0) {
+            throw new BusinessException("同一の表題が存在します。");
+        }
+    }
+
     @Override
     public void addNews(NewsDto dto) {
+
+        this.validateNews(dto);
 
         MstNews trn = new MstNews();
         BeanUtils.copyProperties(dto, trn);
@@ -51,6 +69,8 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public void modifyNews(NewsDto dto) {
+
+        this.validateNews(dto);
 
         MstNews mstNews = new MstNews();
         BeanUtils.copyProperties(dto, mstNews);

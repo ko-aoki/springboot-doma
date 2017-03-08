@@ -18,6 +18,11 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private MstRoleDao mstRoleDao;
 
+    /**
+     * 権限名称に一致する権限を検索します.
+     * @param roleNm:権限名称
+     * @return
+     */
     @Override
     public List<RoleDto> findRole(String roleNm) {
 

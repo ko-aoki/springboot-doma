@@ -1,6 +1,7 @@
 package com.example.web.manager;
 
 import com.example.dto.NewsDto;
+import com.example.exception.BusinessException;
 import com.example.service.NewsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +74,16 @@ public class NewsManagerRegisterController {
         if (result.hasErrors()) {
             return "/manager/news/register/newsRegisterInput";
         }
+        // 業務チェック
+        NewsDto dto = new NewsDto();
+        BeanUtils.copyProperties(form, dto);
+        try {
+            service.validateNews(dto);
+        } catch (BusinessException e) {
+            model.addAttribute("messageList", e.getMessageList());
+            return "/manager/news/register/newsRegisterInput";
+        }
+
         return "/manager/news/register/newsRegisterConfirm";
     }
 
@@ -110,10 +121,12 @@ public class NewsManagerRegisterController {
         if (result.hasErrors()) {
             throw new RuntimeException("不正な入力変更");
         }
-
-        // 登録
+        // 業務チェック
         NewsDto dto = new NewsDto();
         BeanUtils.copyProperties(form, dto);
+        service.validateNews(dto);
+
+        // 登録
         service.addNews(dto);
 
         return "redirect:/manager/news/register?complete";

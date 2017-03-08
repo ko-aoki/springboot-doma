@@ -25,6 +25,9 @@
                         <li th:each="error : ${#fields.detailedErrors()}">
                             <span th:text="${error.message}">Error message</span>
                         </li>
+                        <li th:each="message : ${messageList}">
+                            <span th:text="${message}">message</span>
+                        </li>
                     </ul>
                     <div class="form-group">
                         <label for="subject">お知らせ表題</label>

@@ -19,15 +19,21 @@ public interface NewsService {
     Map<String, String> retrieveRoleIdMap();
 
     /**
+     * 追加・更新するお知らせ情報を検証します.
+     * @param dto お知らせ情報
+     */
+    void validateNews(NewsDto dto);
+
+    /**
      * お知らせ情報を追加します.
-     * @param dto
+     * @param dto お知らせ情報
      */
     @Transactional
     void addNews(NewsDto dto);
 
     /**
      * お知らせ情報を修正します.
-     * @param dto
+     * @param dto お知らせ情報
      */
     @Transactional
     void modifyNews(NewsDto dto);
