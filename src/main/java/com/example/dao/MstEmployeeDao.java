@@ -28,6 +28,6 @@ public interface MstEmployeeDao {
 
     @Insert
     @Transactional
-    int insert(MstEmployee reservation);
+    int insert(MstEmployee mstEmployee);
 
 }
