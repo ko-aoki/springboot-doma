@@ -57,7 +57,7 @@ public class NewsManagerListController {
             page = form.getPage() - 1;
         }
         Page<NewsDto> newsList = service.findNewsPage(form.getSubject(), form.getRoleId(), form.getUrl(), page);
-        if (newsList.getTotalElements() > 0) {
+        if (newsList!=null && newsList.getTotalElements() > 0) {
             model.addAttribute("newsList", newsList);
         }
 

@@ -61,7 +61,7 @@ SecurityConfig.java
                     // ログアウト後の遷移先
                     .logoutSuccessUrl("/loginForm");
             http.headers()
-                    .cacheControl();
+                    .cacheControl().disable();
         }
 
         /**

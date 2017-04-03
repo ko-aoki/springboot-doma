@@ -3,12 +3,15 @@ package com.example.service;
 import com.example.dao.MstNewsDao;
 import com.example.dto.NewsDto;
 import com.example.entity.MstNews;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.domain.Page;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -16,9 +19,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = {"spring.datasource.url:jdbc:h2:file:./work/db/db;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE"}
-)
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.MOCK)
 public class NewsServiceImplTest {
 
     @Autowired
@@ -26,25 +27,25 @@ public class NewsServiceImplTest {
     @Autowired
     private MstNewsDao dao;
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     @Test
+    @Sql(scripts = "../dao/data_news.sql")
     public void addNews() throws Exception {
 
         NewsDto dto = new NewsDto();
-        dto.setRoleId("01");
-        dto.setSubject("表題");
+        dto.setRoleId("100");
+        dto.setSubject("表題100");
         dto.setUrl("http://a.b");
         service.addNews(dto);
 
         List<MstNews> mstNewses = dao.selectAll();
         assertEquals(12, mstNewses.size());
-
-        MstNews mstNews = new MstNews();
-        // ゴミ掃除
-        mstNews.setMstNewsId(12L);
-        dao.delete(mstNews);
     }
 
     @Test
+    @Sql(scripts = "../dao/data_news.sql")
     public void findNewsPage() {
 
         // 条件なし 1ページ
@@ -100,25 +101,27 @@ public class NewsServiceImplTest {
     }
 
     @Test
+    @Sql(scripts = "../dao/data_news.sql")
     public void modifyNews() {
-        NewsDto news = service.findNews(1L);
+        Page<NewsDto> newsPage = service.findNewsPage(null, null, "http://hoge/test1", 0);
+        NewsDto news = newsPage.getContent().get(0);
+
         assertEquals(0, news.getVersion());
         // 正常
         news.setSubject("更新後");
         service.modifyNews(news);
 
-        news = service.findNews(1L);
+        newsPage = service.findNewsPage(null, null, "http://hoge/test1", 0);
+        news = newsPage.getContent().get(0);
 
         assertEquals("更新後", news.getSubject());
         assertEquals(1, news.getVersion());
 
         // 楽観排他
-        news.setSubject("更新後");
-        try {
-            service.modifyNews(news);
-            service.modifyNews(news);
-        } catch (OptimisticLockingFailureException e) {
-            assertEquals(true, true);
-        }
+        expectedException.expect(OptimisticLockingFailureException.class);
+        news.setSubject("更新後2");
+        service.modifyNews(news);
+        news.setSubject("更新後3");
+        service.modifyNews(news);
     }
 }
