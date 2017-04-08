@@ -18,6 +18,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/fonts/**").permitAll()
+                .antMatchers("/js/**").permitAll()
                 .antMatchers("/loginForm").permitAll()
                 // /manager配下はADMIN権限のみ(自動でROLE_が付加されROLE_ADMIN)
                 .antMatchers("/manager/**").hasRole("ADMIN")

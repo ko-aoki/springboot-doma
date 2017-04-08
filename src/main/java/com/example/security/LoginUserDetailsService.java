@@ -19,7 +19,11 @@ public class LoginUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+
         UserEntity user = dao.selectUser(id);
+        if (user == null) {
+            throw new UsernameNotFoundException("ユーザID:" + id + "は存在しません");
+        }
 
         UserInfo userInfo = new UserInfo();
 
