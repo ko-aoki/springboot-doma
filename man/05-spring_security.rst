@@ -159,7 +159,7 @@ schema.sql
         employee_id varchar(10) NOT NULL COMMENT '従業員番号',
         employee_last_name varchar(50) COMMENT '姓',
         employee_first_name varchar(50) COMMENT '名',
-        role_id varchar(10) NOT NULL COMMENT '権限ID',
+        role_id varchar(20) NOT NULL COMMENT '権限ID',
         version int COMMENT 'バージョン',
         insert_user varchar(20) COMMENT '登録ユーザ',
         insert_date datetime COMMENT 'insert_date',
@@ -227,6 +227,9 @@ LoginUserDetailsService.java
         @Override
         public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
             UserEntity user = dao.selectUser(id);
+            if (user == null) {
+                throw new UsernameNotFoundException("ユーザID:" + id + "は存在しません");
+            }
 
             UserInfo userInfo = new UserInfo();
 
