@@ -13,18 +13,22 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = NewsManagerListController.class)
+@WebMvcTest(value = NewsManagerRegisterController.class)
 @Import(SecurityConfig.class)
-public class NewsManagerListControllerTest {
+public class NewsManagerRegisterControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -41,21 +45,25 @@ public class NewsManagerListControllerTest {
     }
 
     @Test
-    public void リクエストマッピング() throws Exception {
+    public void バリデーションチェック() throws Exception {
 
-        this.mvc.perform(
-                MockMvcRequestBuilders.get("/manager/news/list")
-                .with(csrf().asHeader())
-        ).andExpect(status().isOk());
+        MvcResult result = this.mvc.perform(
+                MockMvcRequestBuilders.post("/manager/news/register")
+                        .param("confirm", "")
+                        .param("url", "hoge://a.b")
+                        .param("subject", "")
+                        .with(csrf())
+        )
+                .andExpect(status().isOk())
+                .andExpect(model().hasErrors())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+
+        assertThat(content, is(containsString("お知らせURLの形式が正しくありません。")));
+        assertThat(content, is(containsString("お知らせ表題が入力されていません。")));
+        assertThat(content, is(containsString("権限IDが入力されていません。")));
+
     }
 
-    @Test
-    public void 一般ユーザでエラーになる() throws Exception {
-
-        AuthenticationTestHelper.一般権限の設定();
-        this.mvc.perform(
-                MockMvcRequestBuilders.get("/manager/news/list")
-                        .with(csrf().asHeader())
-        ).andExpect(status().is4xxClientError());
-    }
 }
