@@ -1,4 +1,5 @@
 delete from mst_news;
+delete from mst_role;
 insert into mst_news (role_id, subject, url, version) values('ROLE_ADMIN', '表題テスト1', 'http://hoge/test1', 0);
 insert into mst_news (role_id, subject, url, version) values('ROLE_ADMIN', '表題テスト2', 'http://hoge/test2', 0);
 insert into mst_news (role_id, subject, url, version) values('ROLE_USER', 'テスト表題テスト1', 'http://hogehoge/test1', 0);
@@ -10,3 +11,6 @@ insert into mst_news (role_id, subject, url, version) values('ROLE_USER', 'テ�
 insert into mst_news (role_id, subject, url, version) values('ROLE_USER', 'テスト表題テスト7', 'http://hogehoge/test7', 0);
 insert into mst_news (role_id, subject, url, version) values('ROLE_USER', 'テスト表題テスト8', 'http://hogehoge/test8', 0);
 insert into mst_news (role_id, subject, url, version) values('ROLE_USER', 'テスト表題テスト9', 'http://hogehoge/test9', 0);
+insert into mst_role (role_id, role_name) values('ROLE_ADMIN', '管理者');
+insert into mst_role (role_id, role_name) values('ROLE_USER', '一般');
+insert into mst_role (role_id, role_name) values('ROLE_ACTUATOR', '運用管理');

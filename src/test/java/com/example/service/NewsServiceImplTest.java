@@ -19,7 +19,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Sql(scripts = "../../../schema-dev.sql")
+@Sql(scripts = "../dao/data_news.sql")
 public class NewsServiceImplTest {
 
     @Autowired
@@ -31,7 +33,6 @@ public class NewsServiceImplTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Test
-    @Sql(scripts = "../dao/data_news.sql")
     public void addNews() throws Exception {
 
         NewsDto dto = new NewsDto();
@@ -45,7 +46,6 @@ public class NewsServiceImplTest {
     }
 
     @Test
-    @Sql(scripts = "../dao/data_news.sql")
     public void findNewsPage() {
 
         // 条件なし 1ページ
