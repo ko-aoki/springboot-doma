@@ -4,8 +4,10 @@ import com.example.entity.MstEmployee;
 import com.example.entity.UserEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seasar.doma.boot.autoconfigure.DomaAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +21,10 @@ import static org.junit.Assert.assertThat;
  * Created by ko-aoki on 2017/03/10.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = {"spring.datasource.url:jdbc:h2:file:./work/db/db;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE"}
-)
+@JdbcTest
+@Import(value = {DomaAutoConfiguration.class, MstEmployeeDaoImpl.class})
+@Sql(scripts = "../../../schema-dev.sql")
+@Sql(scripts = "data_employee.sql")
 @Transactional
 public class MstEmployeeDaoTest {
 
@@ -29,7 +32,6 @@ public class MstEmployeeDaoTest {
     MstEmployeeDao dao;
 
     @Test
-    @Sql(scripts = "data_employee.sql")
     public void selectAll() {
 
         List<MstEmployee> mstEmployees = dao.selectAll();
@@ -46,7 +48,6 @@ public class MstEmployeeDaoTest {
     }
 
     @Test
-    @Sql(scripts = "data_employee.sql")
     public void selectUser(){
 
         UserEntity actual = dao.selectUser("01");
