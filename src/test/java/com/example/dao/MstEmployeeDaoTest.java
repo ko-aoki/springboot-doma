@@ -7,14 +7,15 @@ import org.junit.runner.RunWith;
 import org.seasar.doma.boot.autoconfigure.DomaAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -22,10 +23,10 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringRunner.class)
 @JdbcTest
-@Import(value = {DomaAutoConfiguration.class, MstEmployeeDaoImpl.class})
+@Import(DomaAutoConfiguration.class)
+@ComponentScan
 @Sql(scripts = "../../../schema-dev.sql")
 @Sql(scripts = "data_employee.sql")
-@Transactional
 public class MstEmployeeDaoTest {
 
     @Autowired
@@ -45,6 +46,9 @@ public class MstEmployeeDaoTest {
         assertThat(actual.getEmployeeLastName(), is("管理"));
         assertThat(actual.getEmployeeFirstName(), is("太郎"));
         assertThat(actual.getRoleId(), is("ROLE_ADMIN"));
+
+        actual = dao.selectOne("100");
+        assertNull(actual);
     }
 
     @Test
@@ -55,5 +59,9 @@ public class MstEmployeeDaoTest {
         assertThat(actual.getEmployeeFirstName(), is("太郎"));
         assertThat(actual.getRoleId(), is("ROLE_ADMIN"));
         assertThat(actual.getPassword(), is("$2a$10$1gJJgBlL75OIjkSgkYPXI.mV7ihEPjxIiCkXKBEc7/r9xUIjZyc9i"));
+
+        actual = dao.selectUser("100");
+        assertNull(actual);
+
     }
 }

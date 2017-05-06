@@ -40,3 +40,4 @@ http://doma.readthedocs.io/ja/stable/
    03-mvc_start
    04-doma2_start
    05-spring_security
+   06-test
