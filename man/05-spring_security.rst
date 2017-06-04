@@ -13,9 +13,9 @@ http://localhost:8080/edu/loginForm
 
 以下のユーザ/パスワードでログイン可能です。
 
-管理者：01/demo
+管理者：01/test
 
-一般：02/demo
+一般：02/test
 
 設定
 --------------------------
@@ -73,7 +73,7 @@ SecurityConfig.java
         }
     }
 
-管理者：01/demo
+管理者：01/test
 
 で管理用のURLにアクセスしてみます。
 
@@ -86,7 +86,7 @@ http://localhost:8080/edu/manager/news/list
 
 以下のユーザでアクセスすると403エラー画面が表示されます。
 
-一般：02/demo
+一般：02/test
 
 .. figure:: ./images/spring_security/03.png
 

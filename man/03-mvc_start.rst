@@ -5,7 +5,7 @@ Spring MVC 基本
 
 http://localhost:8080/edu
 
-(ユーザ/パスワード　01/demo)
+(ユーザ/パスワード　01/test)
 
 ログイン画面はSpring Securityの機能なので、ここではトップ画面がどのように表示されるのかを確認します。
 

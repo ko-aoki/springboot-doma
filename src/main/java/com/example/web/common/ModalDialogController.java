@@ -25,7 +25,7 @@ public class ModalDialogController {
 
     /** モーダルサービス */
     @Autowired
-    RoleService roleService;
+    private RoleService roleService;
 
     /**
      * 「権限」モーダル画面を表示します.
