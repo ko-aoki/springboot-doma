@@ -36,6 +36,9 @@ SecurityConfig.java
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
+                    .antMatchers("/css/**").permitAll()
+                    .antMatchers("/fonts/**").permitAll()
+                    .antMatchers("/js/**").permitAll()
                     .antMatchers("/loginForm").permitAll()
                     // /manager配下はADMIN権限のみ(自動でROLE_が付加されROLE_ADMIN)
                     .antMatchers("/manager/**").hasRole("ADMIN")
@@ -56,7 +59,7 @@ SecurityConfig.java
                     // パスワードのリクエストパラメータ
                     .passwordParameter("password");
             http.logout()
-                     // ログアウトURL
+                    // ログアウトURL
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
                     // ログアウト後の遷移先
                     .logoutSuccessUrl("/loginForm");
@@ -275,7 +278,7 @@ LoginUserDetailsService.java
 
 2.\ ``org.springframework.security.core.userdetails.User`` \を継承したユーザ情報クラスを作成する。
 
-LoginUserDetailsService.java
+LoginUserDetails.java
 
 .. code-block:: java
 
