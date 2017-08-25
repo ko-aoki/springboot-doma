@@ -19,6 +19,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <!-- JaCoCo properties-->
+        <jacoco-maven.version>0.7.9</jacoco-maven.version>
+        <jacoco.include.package>**/*</jacoco.include.package>
     </properties>
 
     <dependencies>
@@ -106,6 +109,20 @@
                     <argLine>-Dfile.encoding=UTF-8</argLine>
                     <skipTests>false</skipTests>
                 </configuration>
+            </plugin>
+            <!-- JaCoCo -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
