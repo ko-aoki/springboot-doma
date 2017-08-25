@@ -98,18 +98,15 @@
                 </configuration>
             </plugin>
             <!-- winでの実行時sqlデータファイル文字化け抑止 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<junitArtifactName>junit:junit</junitArtifactName>
-					<encoding>UTF-8</encoding>
-					<inputEncoding>UTF-8</inputEncoding>
-					<outputEncoding>UTF-8</outputEncoding>
-					<argLine>-Dfile.encoding=UTF-8</argLine>
-					<skipTests>false</skipTests>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <junitArtifactName>junit:junit</junitArtifactName>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                    <skipTests>false</skipTests>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
