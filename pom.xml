@@ -100,17 +100,7 @@
                     <executable>true</executable>
                 </configuration>
             </plugin>
-            <!-- winでの実行時sqlデータファイル文字化け抑止 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <junitArtifactName>junit:junit</junitArtifactName>
-                    <argLine>-Dfile.encoding=UTF-8</argLine>
-                    <skipTests>false</skipTests>
-                </configuration>
-            </plugin>
-            <!-- JaCoCo -->
+            <!-- JaCoCo カバレッジ計測 -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -121,10 +111,38 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <propertyName>jacocoArgs</propertyName>
+                            <includes>
+                                <include>*</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
+            <!-- テストレポート -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <junitArtifactName>junit:junit</junitArtifactName>
+                    <!-- JaCoCo -->
+                    <!-- winでの実行時sqlデータファイル文字化け抑止 -->
+                    <argLine>${jacocoArgs} -Dfile.encoding=UTF-8</argLine>
+                    <skipTests>false</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
-
 </project>
