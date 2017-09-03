@@ -10,24 +10,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * 従業員マスタのDaoインターフェース.
- */
+/** 従業員マスタのDaoインターフェース. */
 @ConfigAutowireable
 @Dao
 public interface MstEmployeeDao {
 
-    @Select
-    List<MstEmployee> selectAll();
+  @Select
+  List<MstEmployee> selectAll();
 
-    @Select
-    MstEmployee selectOne(String id);
+  @Select
+  MstEmployee selectOne(String id);
 
-    @Select
-    UserEntity selectUser(String id);
+  @Select
+  UserEntity selectUser(String id);
 
-    @Insert
-    @Transactional
-    int insert(MstEmployee mstEmployee);
-
+  @Insert
+  @Transactional
+  int insert(MstEmployee mstEmployee);
 }

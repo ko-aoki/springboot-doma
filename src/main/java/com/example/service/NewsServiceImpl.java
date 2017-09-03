@@ -18,89 +18,85 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * お知らせ情報を操作するサービスクラス.
- */
+/** お知らせ情報を操作するサービスクラス. */
 @Service
 public class NewsServiceImpl implements NewsService {
 
-    @Autowired
-    private MstNewsDao dao;
+  @Autowired private MstNewsDao dao;
 
-    @Autowired
-    private MstRoleDao mstRoleDao;
+  @Autowired private MstRoleDao mstRoleDao;
 
+  @Override
+  public Map<String, String> retrieveRoleIdMap() {
 
-    @Override
-    public Map<String, String> retrieveRoleIdMap() {
+    List<MstRole> mstRoles = mstRoleDao.selectAll();
+    Map<String, String> roleIdMap = new HashMap<>();
+    mstRoles.forEach(mstRole -> roleIdMap.put(mstRole.getRoleId(), mstRole.getRoleName()));
 
-        List<MstRole> mstRoles = mstRoleDao.selectAll();
-        Map<String, String> roleIdMap = new HashMap<>();
-        mstRoles.forEach(mstRole -> roleIdMap.put(mstRole.getRoleId(), mstRole.getRoleName()));
+    return roleIdMap;
+  }
 
-        return roleIdMap;
+  /**
+   * 追加・更新するお知らせ情報を検証します.
+   *
+   * @param dto お知らせ情報
+   */
+  @Override
+  public void validateNews(NewsDto dto) {
+
+    SelectOptions selectOptions = SelectOptions.get().offset(0).limit(100).count();
+    // 表題の一致をチェック
+    dao.selectNewsDtoByCond(dto.getSubject(), null, null, selectOptions);
+    if (selectOptions.getCount() > 0) {
+      throw new BusinessException("同一の表題が存在します。");
     }
+  }
 
-    /**
-     * 追加・更新するお知らせ情報を検証します.
-     * @param dto お知らせ情報
-     */
-    @Override
-    public void validateNews(NewsDto dto) {
+  @Override
+  public void addNews(NewsDto dto) {
 
-        SelectOptions selectOptions = SelectOptions.get().offset(0).limit(100).count();
-        // 表題の一致をチェック
-        dao.selectNewsDtoByCond(dto.getSubject(), null, null , selectOptions);
-        if (selectOptions.getCount() > 0) {
-            throw new BusinessException("同一の表題が存在します。");
-        }
-    }
+    this.validateNews(dto);
 
-    @Override
-    public void addNews(NewsDto dto) {
+    MstNews trn = new MstNews();
+    BeanUtils.copyProperties(dto, trn);
 
-        this.validateNews(dto);
+    dao.insert(trn);
+  }
 
-        MstNews trn = new MstNews();
-        BeanUtils.copyProperties(dto, trn);
+  @Override
+  public void modifyNews(NewsDto dto) {
 
-        dao.insert(trn);
-    }
+    this.validateNews(dto);
 
-    @Override
-    public void modifyNews(NewsDto dto) {
+    MstNews mstNews = new MstNews();
+    BeanUtils.copyProperties(dto, mstNews);
+    mstNews.setMstNewsId(dto.getId());
 
-        this.validateNews(dto);
+    dao.update(mstNews);
+  }
 
-        MstNews mstNews = new MstNews();
-        BeanUtils.copyProperties(dto, mstNews);
-        mstNews.setMstNewsId(dto.getId());
+  @Override
+  public NewsDto findNews(Long id) {
+    return dao.selectOneNewsDto(id);
+  }
 
-        dao.update(mstNews);
-    }
+  @Override
+  public Page<NewsDto> findNewsPage(String subject, String roleId, String url, int pageNo) {
 
-    @Override
-    public NewsDto findNews(Long id) {
-        return dao.selectOneNewsDto(id);
-    }
-
-    @Override
-    public Page<NewsDto> findNewsPage(String subject, String roleId, String url, int pageNo) {
-
-        // ページあたり件数
-        // TODO パラメータ化
-        int sizePerPage = 5;
-        // offset指定、最大100件、カウントあり
-        int offset = pageNo * sizePerPage;
-        SelectOptions selectOptions = SelectOptions.get().offset(offset).limit(100).count();
-        // お知らせリスト取得
-        List<NewsDto> newsDtoList = dao.selectNewsDtoByCond(subject, roleId, url, selectOptions);
-        // 取得件数
-        long count = selectOptions.getCount();
-        // ページ内最終インデックス
-        int lastIdxInPage = sizePerPage > newsDtoList.size() ? newsDtoList.size() : sizePerPage;
-        // ページ情報作成
-        return new PageImpl<>(
-                newsDtoList.subList(0, lastIdxInPage), new PageRequest(pageNo, sizePerPage), count);
-    }
+    // ページあたり件数
+    // TODO パラメータ化
+    int sizePerPage = 5;
+    // offset指定、最大100件、カウントあり
+    int offset = pageNo * sizePerPage;
+    SelectOptions selectOptions = SelectOptions.get().offset(offset).limit(100).count();
+    // お知らせリスト取得
+    List<NewsDto> newsDtoList = dao.selectNewsDtoByCond(subject, roleId, url, selectOptions);
+    // 取得件数
+    long count = selectOptions.getCount();
+    // ページ内最終インデックス
+    int lastIdxInPage = sizePerPage > newsDtoList.size() ? newsDtoList.size() : sizePerPage;
+    // ページ情報作成
+    return new PageImpl<>(
+        newsDtoList.subList(0, lastIdxInPage), new PageRequest(pageNo, sizePerPage), count);
+  }
 }

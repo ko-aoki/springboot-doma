@@ -18,9 +18,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by ko-aoki on 2017/03/10.
- */
+/** Created by ko-aoki on 2017/03/10. */
 @RunWith(SpringRunner.class)
 @JdbcTest
 @Import(DomaAutoConfiguration.class)
@@ -29,39 +27,38 @@ import static org.junit.Assert.assertThat;
 @Sql(scripts = "data_employee.sql")
 public class MstEmployeeDaoTest {
 
-    @Autowired
-    MstEmployeeDao dao;
+  @Autowired MstEmployeeDao dao;
 
-    @Test
-    public void selectAll() {
+  @Test
+  public void selectAll() {
 
-        List<MstEmployee> mstEmployees = dao.selectAll();
-        assertThat(mstEmployees.size(), is(3));
-    }
+    List<MstEmployee> mstEmployees = dao.selectAll();
+    assertThat(mstEmployees.size(), is(3));
+  }
 
-    @Test
-    public void selectOne() {
+  @Test
+  public void selectOne() {
 
-        MstEmployee actual = dao.selectOne("01");
-        assertThat(actual.getEmployeeLastName(), is("管理"));
-        assertThat(actual.getEmployeeFirstName(), is("太郎"));
-        assertThat(actual.getRoleId(), is("ROLE_ADMIN"));
+    MstEmployee actual = dao.selectOne("01");
+    assertThat(actual.getEmployeeLastName(), is("管理"));
+    assertThat(actual.getEmployeeFirstName(), is("太郎"));
+    assertThat(actual.getRoleId(), is("ROLE_ADMIN"));
 
-        actual = dao.selectOne("100");
-        assertNull(actual);
-    }
+    actual = dao.selectOne("100");
+    assertNull(actual);
+  }
 
-    @Test
-    public void selectUser(){
+  @Test
+  public void selectUser() {
 
-        UserEntity actual = dao.selectUser("01");
-        assertThat(actual.getEmployeeLastName(), is("管理"));
-        assertThat(actual.getEmployeeFirstName(), is("太郎"));
-        assertThat(actual.getRoleId(), is("ROLE_ADMIN"));
-        assertThat(actual.getPassword(), is("$2a$10$1gJJgBlL75OIjkSgkYPXI.mV7ihEPjxIiCkXKBEc7/r9xUIjZyc9i"));
+    UserEntity actual = dao.selectUser("01");
+    assertThat(actual.getEmployeeLastName(), is("管理"));
+    assertThat(actual.getEmployeeFirstName(), is("太郎"));
+    assertThat(actual.getRoleId(), is("ROLE_ADMIN"));
+    assertThat(
+        actual.getPassword(), is("$2a$10$1gJJgBlL75OIjkSgkYPXI.mV7ihEPjxIiCkXKBEc7/r9xUIjZyc9i"));
 
-        actual = dao.selectUser("100");
-        assertNull(actual);
-
-    }
+    actual = dao.selectUser("100");
+    assertNull(actual);
+  }
 }

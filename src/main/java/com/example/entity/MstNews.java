@@ -4,51 +4,48 @@ import com.example.entity.listener.AuditListener;
 import org.seasar.doma.*;
 import org.seasar.doma.jdbc.entity.NamingType;
 
-/**
- * お知らせマスタエンティティ.
- */
-
+/** お知らせマスタエンティティ. */
 @Entity(naming = NamingType.SNAKE_LOWER_CASE, listener = AuditListener.class)
 @Table(name = "mst_news")
 public class MstNews extends AuditEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long mstNewsId;
-    private String roleId;
-    private String subject;
-    private String url;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long mstNewsId;
 
-    public Long getMstNewsId() {
-        return mstNewsId;
-    }
+  private String roleId;
+  private String subject;
+  private String url;
 
-    public void setMstNewsId(Long mstNewsId) {
-        this.mstNewsId = mstNewsId;
-    }
+  public Long getMstNewsId() {
+    return mstNewsId;
+  }
 
-    public String getRoleId() {
-        return roleId;
-    }
+  public void setMstNewsId(Long mstNewsId) {
+    this.mstNewsId = mstNewsId;
+  }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
+  public String getRoleId() {
+    return roleId;
+  }
 
-    public String getSubject() {
-        return subject;
-    }
+  public void setRoleId(String roleId) {
+    this.roleId = roleId;
+  }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
+  public String getSubject() {
+    return subject;
+  }
 
-    public String getUrl() {
-        return url;
-    }
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  public String getUrl() {
+    return url;
+  }
 
+  public void setUrl(String url) {
+    this.url = url;
+  }
 }

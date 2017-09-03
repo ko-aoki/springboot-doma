@@ -15,52 +15,51 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.Map;
 
-/**
- * お知らせ管理リスト画面のコントローラクラス.
- */
+/** お知らせ管理リスト画面のコントローラクラス. */
 @Controller
 @RequestMapping("manager/news/list")
 @SessionAttributes({"roleIdMap"})
 public class NewsManagerListController {
 
-    /** ロガー */
-    private static final Logger logger = LoggerFactory.getLogger(NewsManagerListController.class);
+  /** ロガー */
+  private static final Logger logger = LoggerFactory.getLogger(NewsManagerListController.class);
 
-    /** お知らせ機能のサービスクラス */
-    @Autowired
-    private NewsService service;
+  /** お知らせ機能のサービスクラス */
+  @Autowired private NewsService service;
 
-    /**
-     * 権限のコンボボックスを初期化します.
-     * @return
-     */
-    @ModelAttribute("roleIdMap")
-    public Map<String, String> setupRoleIdMap() {
-        return service.retrieveRoleIdMap();
+  /**
+   * 権限のコンボボックスを初期化します.
+   *
+   * @return
+   */
+  @ModelAttribute("roleIdMap")
+  public Map<String, String> setupRoleIdMap() {
+    return service.retrieveRoleIdMap();
+  }
+
+  /**
+   * 「重要なお知らせ」リスト画面を表示します.
+   *
+   * @param form : お知らせForm
+   * @param model : モデル
+   * @return
+   */
+  @GetMapping
+  public String display(NewsListCondForm form, Model model) {
+
+    int page;
+    if (form.getPage() == null) {
+      page = 0;
+      form.setPage(1);
+    } else {
+      page = form.getPage() - 1;
+    }
+    Page<NewsDto> newsList =
+        service.findNewsPage(form.getSubject(), form.getRoleId(), form.getUrl(), page);
+    if (newsList != null && newsList.getTotalElements() > 0) {
+      model.addAttribute("newsList", newsList);
     }
 
-    /**
-     * 「重要なお知らせ」リスト画面を表示します.
-     * @param form : お知らせForm
-     * @param model : モデル
-     * @return
-     */
-    @GetMapping
-    public String display(NewsListCondForm form,
-                        Model model) {
-
-        int page;
-        if (form.getPage() == null) {
-            page = 0;
-            form.setPage(1);
-        } else {
-            page = form.getPage() - 1;
-        }
-        Page<NewsDto> newsList = service.findNewsPage(form.getSubject(), form.getRoleId(), form.getUrl(), page);
-        if (newsList!=null && newsList.getTotalElements() > 0) {
-            model.addAttribute("newsList", newsList);
-        }
-
-        return "/manager/news/list/newsList";
-    }
+    return "/manager/news/list/newsList";
+  }
 }

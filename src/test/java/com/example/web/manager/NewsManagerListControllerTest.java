@@ -26,39 +26,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(SecurityConfig.class)
 public class NewsManagerListControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
+  @Autowired private MockMvc mvc;
 
-    @MockBean
-    NewsService mockService;
+  @MockBean NewsService mockService;
 
-    @Before
-    public void setup() {
+  @Before
+  public void setup() {
 
-        // セキュリティ設定
-        AuthenticationTestHelper.管理者権限の設定();
-        // modelAttribute
-        Mockito.when(mockService.retrieveRoleIdMap()).thenReturn(new HashMap<String, String>());
-    }
+    // セキュリティ設定
+    AuthenticationTestHelper.管理者権限の設定();
+    // modelAttribute
+    Mockito.when(mockService.retrieveRoleIdMap()).thenReturn(new HashMap<String, String>());
+  }
 
-    @Test
-    public void 重要なお知らせリスト画面_リクエストマッピング() throws Exception {
+  @Test
+  public void 重要なお知らせリスト画面_リクエストマッピング() throws Exception {
 
-        this.mvc.perform(
-                MockMvcRequestBuilders.get("/manager/news/list")
-                        .with(csrf())
-        ).andExpect(status().isOk())
+    this.mvc
+        .perform(MockMvcRequestBuilders.get("/manager/news/list").with(csrf()))
+        .andExpect(status().isOk())
         .andExpect(view().name("/manager/news/list/newsList"));
-    }
+  }
 
-    @Test
-    public void 重要なお知らせリスト画面_一般ユーザでエラーになる() throws Exception {
+  @Test
+  public void 重要なお知らせリスト画面_一般ユーザでエラーになる() throws Exception {
 
-        // セキュリティ設定
-        AuthenticationTestHelper.一般権限の設定();
-        this.mvc.perform(
-                MockMvcRequestBuilders.get("/manager/news/list")
-                        .with(csrf())
-        ).andExpect(status().is4xxClientError());
-    }
+    // セキュリティ設定
+    AuthenticationTestHelper.一般権限の設定();
+    this.mvc
+        .perform(MockMvcRequestBuilders.get("/manager/news/list").with(csrf()))
+        .andExpect(status().is4xxClientError());
+  }
 }

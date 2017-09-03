@@ -9,21 +9,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * 権限マスタのDaoインターフェース.
- */
+/** 権限マスタのDaoインターフェース. */
 @ConfigAutowireable
 @Dao
 public interface MstRoleDao {
 
-    @Select
-    List<MstRole> selectAll();
+  @Select
+  List<MstRole> selectAll();
 
-    @Select
-    List<MstRole> selectByRoleName(String roleName);
+  @Select
+  List<MstRole> selectByRoleName(String roleName);
 
-    @Insert
-    @Transactional
-    int insert(MstRole ent);
-
+  @Insert
+  @Transactional
+  int insert(MstRole ent);
 }
