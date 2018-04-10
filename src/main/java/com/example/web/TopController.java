@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class TopController {
 
-  @Value("${app.uploadPath}")
-  private String UPLOAD_PATH;
-
   /** ロガー */
   private static final Logger logger = LoggerFactory.getLogger(TopController.class);
 

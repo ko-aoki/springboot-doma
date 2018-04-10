@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.1.RELEASE</version>
+        <version>2.0.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -88,11 +88,39 @@
             <scope>runtime</scope>
         </dependency>
         <!-- Doma2 -->
+        <!-- 暫定 Spring Boot2対応のため、独自コンパイルjar from -->
+        <dependency>
+            <groupId>org.seasar.doma</groupId>
+            <artifactId>doma</artifactId>
+            <version>2.19.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.seasar.doma.boot</groupId>
-            <artifactId>doma-spring-boot-starter</artifactId>
-            <version>1.1.0</version>
+            <artifactId>doma-spring-boot-autoconfigure</artifactId>
+            <version>1.2.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/doma-spring-boot-autoconfigure-1.2.0-SNAPSHOT.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>org.seasar.doma.boot</groupId>
+            <artifactId>doma-spring-boot-core</artifactId>
+            <version>1.2.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/doma-spring-boot-core-1.2.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <!-- 暫定 Spring Boot2対応のため、独自コンパイルjar to -->
         <!-- lombok -->
     </dependencies>
 
@@ -104,6 +132,9 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <executable>true</executable>
+                    <!-- Doma2 -->
+                    <!-- 暫定 Spring Boot2対応のため、独自コンパイルjar -->
+                    <includeSystemScope>true</includeSystemScope>
                 </configuration>
             </plugin>
             <!-- JaCoCo カバレッジ計測 -->
